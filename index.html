@@ -1,0 +1,1262 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nature Brique ERP</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 26'%3E%3Cg fill='%23a8401d'%3E%3Crect width='17' height='7' rx='1'/%3E%3Crect x='19' width='17' height='7' rx='1'/%3E%3Crect y='9.5' width='7.5' height='7' rx='1'/%3E%3Crect x='9.5' y='9.5' width='17' height='7' rx='1'/%3E%3Crect x='28.5' y='9.5' width='7.5' height='7' rx='1'/%3E%3Crect y='19' width='17' height='7' rx='1'/%3E%3Crect x='19' y='19' width='17' height='7' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : rail sombre « four » à gauche, une seule zone de travail qui défile ; les listes s'ouvrent en fiche sur place. */
+:root{
+  --bg:#eceeeb; --surface:#fcfcfb; --surface-2:#f3f4f1; --ink:#1c1613; --ink-2:#564e49; --muted:#7d756f;
+  --line:#dadbd4; --line-2:#c3c2b7; --grid:#e1e0d9;
+  --accent:#a8401d; --accent-hover:#8a3214; --accent-ink:#ffffff; --accent-soft:#f3e1d8;
+  --rail:#241a16; --rail-ink:#f3ece7; --rail-muted:#b5a79e; --rail-active:#3d2b23;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --good:#0ca30c; --warn:#fab219; --crit:#d03b3b;
+  --good-bg:#e3f3e1; --good-ink:#0b5a0b; --warn-bg:#fbefcf; --warn-ink:#6f4b00; --crit-bg:#f8e0de; --crit-ink:#962020; --neutral-bg:#e8e9e4; --neutral-ink:#4b4541;
+  --shadow:0 1px 2px rgba(28,22,19,.05),0 10px 30px rgba(28,22,19,.07);
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#100f0e; --surface:#1a1a19; --surface-2:#232221; --ink:#f5f1ee; --ink-2:#cac2bc; --muted:#978e88;
+  --line:#2f2d2b; --line-2:#413e3b; --grid:#2c2c2a;
+  --accent:#e58257; --accent-hover:#f09b74; --accent-ink:#1d0e07; --accent-soft:#3b2218;
+  --rail:#0a0908; --rail-ink:#f3ece7; --rail-muted:#a3968e; --rail-active:#2b1e18;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#0ca30c; --warn:#fab219; --crit:#d03b3b;
+  --good-bg:#16301a; --good-ink:#7fdc7f; --warn-bg:#3a2e0e; --warn-ink:#fbc94f; --crit-bg:#3d1a1a; --crit-ink:#f39a9a; --neutral-bg:#2a2927; --neutral-ink:#cac2bc;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#100f0e; --surface:#1a1a19; --surface-2:#232221; --ink:#f5f1ee; --ink-2:#cac2bc; --muted:#978e88;
+  --line:#2f2d2b; --line-2:#413e3b; --grid:#2c2c2a;
+  --accent:#e58257; --accent-hover:#f09b74; --accent-ink:#1d0e07; --accent-soft:#3b2218;
+  --rail:#0a0908; --rail-ink:#f3ece7; --rail-muted:#a3968e; --rail-active:#2b1e18;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --good:#0ca30c; --warn:#fab219; --crit:#d03b3b;
+  --good-bg:#16301a; --good-ink:#7fdc7f; --warn-bg:#3a2e0e; --warn-ink:#fbc94f; --crit-bg:#3d1a1a; --crit-ink:#f39a9a; --neutral-bg:#2a2927; --neutral-ink:#cac2bc;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14.5px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--font-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:1.75rem;font-weight:700;line-height:1.15}
+h2{font-size:1.08rem;font-weight:650}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--font-mono);font-size:.9em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100dvh}
+.rail{background:var(--rail);color:var(--rail-ink);display:flex;flex-direction:column;gap:22px;padding:20px 14px;position:sticky;top:0;align-self:start;height:100dvh}
+.brand{display:flex;gap:11px;align-items:center;padding:2px 6px}
+.brand svg{flex:none}
+.brand strong{font-family:var(--font-display);font-size:1.12rem;font-weight:700;display:block;line-height:1.1}
+.brand span{font-size:.74rem;color:var(--rail-muted);letter-spacing:.04em;text-transform:uppercase}
+.nav{display:flex;flex-direction:column;gap:3px}
+.nav button{all:unset;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px;border-radius:7px;cursor:pointer;color:var(--rail-muted);font-weight:500;white-space:nowrap}
+.nav button:hover{color:var(--rail-ink);background:var(--rail-active)}
+.nav button[aria-current="page"]{color:var(--rail-ink);background:var(--rail-active);box-shadow:inset 3px 0 0 var(--accent)}
+.nav button:focus-visible{outline:2px solid var(--rail-ink);outline-offset:-2px}
+.nav .count{font-family:var(--font-mono);font-size:.74rem;color:var(--rail-muted)}
+.rail-foot{margin-top:auto;font-size:.76rem;color:var(--rail-muted);padding:0 6px;display:flex;gap:7px;align-items:flex-start;line-height:1.35}
+.rail-foot i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:4px;background:var(--rail-muted)}
+.rail-foot.on i{background:var(--good)}
+.rail-foot.off i{background:var(--warn)}
+
+main{padding-block:26px 60px;padding-inline:clamp(16px,3.4vw,40px);min-width:0;display:flex;flex-direction:column;gap:18px;max-width:1240px;width:100%}
+main:focus{outline:none}
+.vh{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.vh .sub{color:var(--ink-2);margin-top:3px}
+.crumb{all:unset;cursor:pointer;color:var(--ink-2);font-size:.86rem;font-weight:500}
+.crumb:hover{color:var(--accent)}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.grow{flex:1 1 auto;min-width:0}
+
+.btn{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 14px;border-radius:7px;border:1px solid var(--line-2);background:var(--surface);cursor:pointer;font-weight:550;font-size:.9rem;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--ink-2)}
+.btn.ghost:hover{background:var(--surface-2);color:var(--ink)}
+.btn.danger{color:var(--crit-ink)}
+.btn.armed{background:var(--crit);border-color:var(--crit);color:#fff}
+.btn.sm{padding:5px 9px;font-size:.82rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hint{color:var(--muted);font-size:.84rem}
+.banner{border-radius:9px;padding:11px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:.9rem;background:var(--warn-bg);color:var(--warn-ink)}
+.banner.info{background:var(--accent-soft);color:var(--ink)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:99px;font-size:.78rem;font-weight:600;white-space:nowrap;background:var(--neutral-bg);color:var(--neutral-ink)}
+.pill.good{background:var(--good-bg);color:var(--good-ink)}
+.pill.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.pill.crit{background:var(--crit-bg);color:var(--crit-ink)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.st{display:inline-block;width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;flex:none}
+.st.h{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.st.q{background:conic-gradient(currentColor 75%,transparent 0)}
+.st.f{background:currentColor}
+
+.seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--surface);flex-wrap:wrap}
+.seg button{all:unset;box-sizing:border-box;padding:6px 12px;font-size:.86rem;font-weight:500;cursor:pointer;color:var(--ink-2);white-space:nowrap}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.seg .c{font-family:var(--font-mono);font-size:.76rem;opacity:.75;margin-left:4px}
+
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.8rem;font-weight:550;color:var(--ink-2);min-width:0}
+.in{border:1px solid var(--line-2);background:var(--surface);border-radius:7px;padding:8px 10px;width:100%;min-width:0;color:var(--ink);font-weight:400;font-size:.92rem}
+.in:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.in[disabled]{background:var(--surface-2);color:var(--ink-2)}
+textarea.in{resize:vertical;min-height:70px}
+.in.r{text-align:right;font-variant-numeric:tabular-nums}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.check{display:flex;gap:8px;align-items:center;font-size:.9rem;color:var(--ink)}
+.check input{width:17px;height:17px;accent-color:var(--accent)}
+
+.tw{overflow-x:auto;margin-inline:-4px;padding-inline:4px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-2);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child>td{border-bottom:0}
+th.r,td.r{text-align:right}
+td.r{font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover{background:var(--surface-2)}
+.link{all:unset;cursor:pointer;font-family:var(--font-mono);font-size:.86rem;font-weight:500;color:var(--accent)}
+.link:hover{text-decoration:underline}
+.link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.lines td{padding:6px 5px;border-bottom:0;vertical-align:top}
+.lines td.r{padding-top:15px}
+.lines th{padding-inline:5px}
+.tag-ex{font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-2);border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:middle}
+
+.edit{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.totals{position:sticky;top:18px}
+.totals dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:7px 12px;font-size:.92rem}
+.totals dt{color:var(--ink-2)}
+.totals dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.totals .ttc{font-size:1.2rem;font-weight:650;border-top:1px solid var(--line-2);padding-top:10px;color:var(--ink)}
+.stack{display:flex;flex-direction:column;gap:8px}
+.stack .btn{width:100%}
+
+.empty{border:1px dashed var(--line-2);border-radius:10px;padding:34px 20px;text-align:center;color:var(--ink-2);display:flex;flex-direction:column;gap:12px;align-items:center}
+.empty strong{font-family:var(--font-display);font-size:1.1rem;color:var(--ink)}
+.empty p{max-width:52ch}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.tile .l{font-size:.8rem;color:var(--ink-2);display:flex;align-items:center;gap:7px}
+.tile .v{font-size:1.65rem;font-weight:600;line-height:1.15}
+.tile .d{font-size:.8rem;color:var(--muted)}
+.key{display:inline-block;width:10px;height:10px;border-radius:3px;flex:none}
+.legend{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:.86rem;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.plot{position:relative;width:100%;min-height:250px}
+.plot svg{display:block;width:100%;height:250px}
+.plot text{font-family:var(--font-body);font-size:11px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.tt{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line-2);border-radius:8px;box-shadow:var(--shadow);padding:8px 10px;font-size:.82rem;min-width:150px;z-index:2}
+.tt h4{margin:0 0 5px;font-size:.78rem;color:var(--muted);font-weight:600;text-transform:capitalize}
+.tt div{display:flex;justify-content:space-between;gap:14px;align-items:center}
+.tt div span{display:inline-flex;gap:6px;align-items:center;color:var(--ink-2)}
+.tt div b{font-variant-numeric:tabular-nums;font-weight:600}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);border-radius:7px;padding:7px 10px;font-size:.8rem;white-space:pre-line;z-index:50;max-width:260px}
+.pbars{display:flex;flex-direction:column;gap:14px}
+.prow{display:grid;grid-template-columns:minmax(120px,230px) minmax(0,1fr);gap:4px 14px;align-items:center}
+.pname{font-size:.88rem;font-weight:500;overflow-wrap:anywhere}
+.ptrack{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pb{display:flex;align-items:center;gap:7px;height:11px}
+.pb i{display:block;height:10px;border-radius:0 4px 4px 0;min-width:2px;flex:0 0 auto}
+.pb span{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.oflist{display:flex;flex-direction:column;gap:10px}
+.ofc{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) auto;gap:8px 18px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 16px}
+.ofc:hover{border-color:var(--ink-2)}
+.ofc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ofc .t{font-weight:600}
+.ofc .m{font-size:.82rem;color:var(--ink-2)}
+.meter{display:flex;flex-direction:column;gap:3px;min-width:0}
+.meter .bar{height:7px;border-radius:4px;background:var(--neutral-bg);overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:4px}
+.meter small{font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px}
+.journal{display:flex;flex-direction:column}
+.jr{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem}
+.jr:last-child{border-bottom:0}
+.jr .note{color:var(--muted);font-size:.8rem}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px 18px}
+.kv div{min-width:0}
+.kv dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.kv dd{margin:2px 0 0;overflow-wrap:anywhere}
+
+.modal{position:fixed;inset:0;z-index:40;background:rgba(16,12,10,.55);display:grid;place-items:center;padding:16px;overflow:auto}
+.dlg{background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--shadow);width:min(600px,100%);padding:20px;display:flex;flex-direction:column;gap:14px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 0;font-size:.84rem;font-weight:550;color:var(--muted)}
+.steps li{display:flex;align-items:center;gap:7px}
+.steps li+li::before{content:"";width:22px;height:1px;background:var(--line-2);margin-inline:8px}
+.steps b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-2);font-size:.72rem;font-weight:600;font-variant-numeric:tabular-nums}
+.steps .done{color:var(--ink-2)}
+.steps .done b{background:var(--ink-2);border-color:var(--ink-2);color:var(--surface)}
+.steps .cur{color:var(--ink)}
+.steps .cur b{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.next{background:var(--accent-soft);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:11px}
+.next p{max-width:70ch}
+.dlg-f{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.err{color:var(--crit-ink);font-size:.86rem;font-weight:500}
+#toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:9px;font-size:.9rem;font-weight:500;box-shadow:var(--shadow);z-index:60;max-width:calc(100vw - 32px);opacity:0;pointer-events:none;transition:opacity .18s}
+#toast.show{opacity:1}
+body.ro [data-w]{display:none!important}
+body.noadm [data-adm]{display:none!important}
+.cat .in{padding:6px 8px}
+.how{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;max-width:75ch}
+.res{display:flex;flex-direction:column;gap:4px}
+.res button{all:unset;box-sizing:border-box;cursor:pointer;padding:7px 10px;border:1px solid var(--line);border-radius:7px;display:flex;justify-content:space-between;gap:10px}
+.res button:hover{border-color:var(--accent)}
+.res button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.res small{color:var(--muted)}
+.cat td{padding:6px 5px}
+body.nopdf [data-pdf]{display:none!important}
+.nav-sec{font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;color:var(--rail-muted);padding:16px 11px 5px;font-weight:600}
+.qa{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.qa-b{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.qa-b:hover{border-color:var(--accent)}
+.qa-b:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qa-b b{font-weight:600;color:var(--ink)}
+.qa-b span{font-size:.82rem;color:var(--ink-2)}
+.qa-b.main{background:var(--accent);border-color:var(--accent)}
+.qa-b.main b,.qa-b.main span{color:var(--accent-ink)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.calc{background:var(--surface-2);border-radius:8px;padding:9px 12px;font-size:.86rem;color:var(--ink-2)}
+.login{position:fixed;inset:0;z-index:70;background:var(--bg);display:grid;place-items:center;padding:16px;overflow:auto}
+.lg-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);width:min(400px,100%);padding:26px;display:flex;flex-direction:column;gap:14px}
+.lo{all:unset;cursor:pointer;color:var(--rail-ink);text-decoration:underline;font-size:.76rem;display:inline-block;margin-top:4px}
+.lo:focus-visible{outline:2px solid var(--rail-ink);outline-offset:2px}
+
+@media (max-width:900px){
+  .edit{grid-template-columns:minmax(0,1fr)}
+  .totals{position:static}
+}
+@media (max-width:760px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{position:static;height:auto;flex-direction:column;gap:12px;padding:14px 16px 10px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
+  .nav button{padding:7px 11px}
+  .nav button[aria-current="page"]{box-shadow:inset 0 -3px 0 var(--accent)}
+  .nav .count{display:none}
+  .nav-sec{display:none}
+  .rail-foot{margin-top:0}
+  h1{font-size:1.45rem}
+  .prow{grid-template-columns:minmax(0,1fr)}
+  .ofc{grid-template-columns:minmax(0,1fr)}
+  .jr{grid-template-columns:auto minmax(0,1fr) auto}
+  .jr .btn{grid-column:3}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="brand">
+      <svg width="36" height="26" viewBox="0 0 36 26" aria-hidden="true">
+        <g fill="var(--accent)"><rect x="0" y="0" width="17" height="7" rx="1"/><rect x="19" y="0" width="17" height="7" rx="1"/><rect x="0" y="9.5" width="7.5" height="7" rx="1"/><rect x="9.5" y="9.5" width="17" height="7" rx="1"/><rect x="28.5" y="9.5" width="7.5" height="7" rx="1"/><rect x="0" y="19" width="17" height="7" rx="1"/><rect x="19" y="19" width="17" height="7" rx="1"/></g>
+      </svg>
+      <div><strong>Nature Brique</strong><span>Devis · Fabrication</span></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="Modules"></nav>
+    <div class="rail-foot" id="sync"><i></i><span>Connexion aux données…</span></div>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="login" class="login" hidden>
+  <form class="lg-card" id="lg-form" novalidate>
+    <div class="brand" style="padding:0"><svg width="36" height="26" viewBox="0 0 36 26" aria-hidden="true"><g fill="var(--accent)"><rect x="0" y="0" width="17" height="7" rx="1"/><rect x="19" y="0" width="17" height="7" rx="1"/><rect x="0" y="9.5" width="7.5" height="7" rx="1"/><rect x="9.5" y="9.5" width="17" height="7" rx="1"/><rect x="28.5" y="9.5" width="7.5" height="7" rx="1"/><rect x="0" y="19" width="17" height="7" rx="1"/><rect x="19" y="19" width="17" height="7" rx="1"/></g></svg><div><strong style="font-family:var(--font-display);font-size:1.15rem">Nature Brique</strong><br><span class="hint">Devis · Fabrication</span></div></div>
+    <h1>Connexion</h1>
+    <label class="f">E-mail<input class="in" id="lg-mail" type="email" autocomplete="username" required></label>
+    <label class="f">Mot de passe<input class="in" id="lg-pwd" type="password" autocomplete="current-password" required></label>
+    <p class="err" id="lg-err" hidden></p>
+    <button class="btn primary" type="submit" id="lg-go">Se connecter</button>
+    <button class="btn ghost" type="button" id="lg-forgot">Mot de passe oublié ?</button>
+    <p class="hint">Accès réservé à l'équipe de Nature Brique. Votre compte est créé par un administrateur.</p>
+  </form>
+</div>
+<div id="dlg" class="modal" role="dialog" aria-modal="true" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* Configuration Firebase du projet erp-nature-brique : valeurs publiques, non secrètes.
+   La protection des données vient de la connexion et des règles firestore.rules. */
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA5syctebFq1WOaj99s7XbKd41McB5YhVA",
+  authDomain: "erp-nature-brique.firebaseapp.com",
+  projectId: "erp-nature-brique",
+  storageBucket: "erp-nature-brique.firebasestorage.app",
+  messagingSenderId: "325849659757",
+  appId: "1:325849659757:web:14157d9b66ff4e78688264"
+};
+/* Compte propriétaire : toujours administrateur. Créez-le d'abord dans la console Firebase (Authentication). */
+window.OWNER_EMAIL = "franck.kidjo@naturebrique.com";
+</script>
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const VIEWS = ['tableau','devis','ordres','clients','catalogue','admin','utilisateurs','parametres'];
+const APP_URL = location.origin + location.pathname;
+const ROLES = {admin:'Administrateur', utilisateur:'Utilisateur', lecture:'Lecture seule'}, ORD = {lecture:0, utilisateur:1, admin:2}, PARTAGE = {admin:'Éditeur', utilisateur:'Contributeur', lecture:'Lecteur'};
+const S = {
+  view:'tableau', produits:[], devis:[], ordres:[], clients:[], utilisateurs:[], demandes:[], rq:{}, demSent:false, demSub:false, config:null, isAdmin:true, pedit:{}, srv:{write:true, admin:true}, me:null, usr:null, blocked:null, myRec:null, dataSub:false, uPick:null, invRec:null,
+  loaded:{produits:false,devis:false,ordres:false,clients:false,utilisateurs:false,config:false}, mode:'loading', canWrite:true, dl:null,
+  draft:null, draftId:null, ofId:null, mv:null, cfgDraft:null,
+  fDevis:'tous', qDevis:'', fOf:'tous', periode:6, fProd:'', vue:'graph', busy:false, agg:null
+};
+let db = null, auth = null; const FB = window.FIREBASE_CONFIG, OWNER = String(window.OWNER_EMAIL||'').toLowerCase();
+
+/* ---------- outils ---------- */
+const pad = n => String(n).padStart(2,'0');
+const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today = () => iso(new Date());
+const addDays = (s, n) => { const d = new Date(s+'T12:00:00'); d.setDate(d.getDate()+n); return iso(d); };
+const fDate = s => s && /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(0,4) : '—';
+const fNum = n => Math.round(+n||0).toLocaleString('fr-FR');
+const fF = n => fNum(n)+' F CFA';
+const fP = n => (+n||0).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:2})+' F CFA';
+const r2 = n => Math.round((+n||0)*100)/100;
+const aibK = () => 1 + (+cfg().aib||0)/100;
+const fCompact = v => v>=1e6 ? (v/1e6).toLocaleString('fr-FR',{maximumFractionDigits:1})+' M' : v>=1e4 ? (v/1e3).toLocaleString('fr-FR',{maximumFractionDigits:1})+' k' : fNum(v);
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+const cfg = () => Object.assign({societe:'Nature Brique Nouvelle Génération',siege:'',usine:'',tel:'',email:'',emailAtelier:'',emailEnvoi:'',accesRestreint:false,tva:18,aib:1,validite:30,mentions:''}, S.config||{});
+const MOIS = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const fMois = m => MOIS[+m.slice(5,7)-1]+' '+m.slice(2,4);
+function getPath(o, p){ return p.split('.').reduce((a,k)=> a==null?a:a[k], o); }
+function setPath(o, p, v){ const ks = p.split('.'); const last = ks.pop(); const t = ks.reduce((a,k)=>a[k], o); t[last] = v; }
+function nextNum(prefix, list){
+  const y = new Date().getFullYear(); const re = new RegExp('^'+prefix+'-'+y+'-(\\d+)$'); let max = 0;
+  for (const d of list){ const m = re.exec(d.numero||''); if (m) max = Math.max(max, +m[1]); }
+  return prefix+'-'+y+'-'+String(max+1).padStart(4,'0');
+}
+function totals(d){
+  const st = (d.lignes||[]).reduce((s,l)=> s + (+l.qte||0)*(+l.pu||0), 0);
+  const rem = Math.round(st*(+d.remise||0)/100), ht = st-rem, tva = d.tvaOn ? Math.round(ht*(+d.tva||0)/100) : 0;
+  const aibRate = d.aib==null || d.aib==='' ? +cfg().aib||0 : +d.aib||0, aib = d.aibOn!==false ? Math.round(ht*aibRate/100) : 0;
+  return {st, rem, ht, tva, aib, aibRate, ttc: ht+tva+aib};
+}
+function ofLine(o, pid){
+  let fab = 0, liv = 0;
+  for (const m of o.mouvements||[]) if (m.pid===pid){ if (m.type==='liv') liv += +m.qte||0; else fab += +m.qte||0; }
+  return {fab, liv};
+}
+function ofStats(o){
+  let Q=0,F=0,L=0;
+  for (const l of o.lignes||[]){ const q=+l.qte||0, s=ofLine(o,l.pid); Q+=q; F+=Math.min(q,s.fab); L+=Math.min(q,s.liv); }
+  const st = Q>0 && L>=Q ? 'livre' : Q>0 && F>=Q ? 'pret' : F>0 ? 'encours' : 'planifie';
+  const retard = st!=='livre' && o.echeance && o.echeance < today();
+  return {Q,F,L,st,retard, pf: Q?F/Q:0, pl: Q?L/Q:0};
+}
+const DST = {brouillon:['Brouillon','','o'], valide:['Validé','acc','h'], confirme:['Confirmé','good','f'], refuse:['Refusé','crit','x']};
+const OST = {planifie:['À fabriquer','','o'], encours:['En fabrication','warn','h'], pret:['Fabriqué','acc','q'], livre:['Livré','good','f']};
+const pill = (map, k) => { const s = map[k]||map[Object.keys(map)[0]]; return `<span class="pill ${s[1]}">${s[2]==='x' ? '<span aria-hidden="true">✕</span>' : `<i class="st ${s[2]}" aria-hidden="true"></i>`}${s[0]}</span>`; };
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.t); toast.t = setTimeout(()=>t.classList.remove('show'), 3800); }
+function errMsg(e){
+  const c = e && e.code;
+  if (c==='permission-denied') return "Modification refusée : cette action est réservée à un administrateur, ou votre accès est en lecture seule.";
+  if (c==='unavailable') return "Connexion à la base impossible. Vérifiez Internet, puis réessayez.";
+  if (c==='invalid_argument') return "Modification refusée : cette action est réservée à un administrateur, ou votre accès est en lecture seule.";
+  if (c==='quota_exceeded') return "Espace de stockage plein : supprimez d'anciens devis ou ordres, puis réessayez.";
+  if (c==='resource_exhausted') return "Trop d'opérations à la fois. Patientez quelques secondes, puis réessayez.";
+  if (c==='revoked'||c==='not_granted') return "L'accès aux données a été retiré. Rechargez la page.";
+  return "Enregistrement impossible pour le moment. Vérifiez la connexion, puis réessayez.";
+}
+
+/* ---------- stockage ---------- */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+async function retry(fn){ try { return await fn(); } catch(e){ if (e && e.code==='unavailable'){ await wait(500+Math.random()*600); return fn(); } throw e; } }
+function localUpsert(col, id, data, merge){
+  if (col==='config'){ S.config = merge ? Object.assign({}, S.config, data) : data; return; }
+  const i = S[col].findIndex(d => d.id===id);
+  if (i<0) S[col] = [{...data, id}, ...S[col]]; else S[col] = S[col].map(d => d.id===id ? (merge ? {...d, ...data} : {...data, id}) : d);
+}
+function settle(p){
+  return new Promise((res, rej) => {
+    let late = false; const t = setTimeout(() => { late = true; res(); }, 1500);
+    p.then(() => { clearTimeout(t); res(); }, e => { clearTimeout(t); if (late){ console.error(e); toast(errMsg(e)); } else rej(e); });
+  });
+}
+async function setDoc(col, id, data){ if (db) return settle(retry(() => db.collection(col).doc(id).set(data))); localUpsert(col,id,data,false); scheduleRender(); }
+async function updDoc(col, id, data){ if (db) return settle(retry(() => db.collection(col).doc(id).update(data))); localUpsert(col,id,data,true); scheduleRender(); }
+async function delDoc(col, id){ if (db) return settle(retry(() => db.collection(col).doc(id).delete())); S[col] = S[col].filter(d => d.id!==id); scheduleRender(); }
+let queue = Promise.resolve(); const pending = new Set();
+function run(fn){
+  const key = S.act || ''; if (pending.has(key)) return queue; pending.add(key);
+  queue = queue.then(async () => {
+    const slow = setTimeout(() => toast('Enregistrement…'), 700);
+    try { await fn(); } catch(e){ console.error(e); toast(errMsg(e)); }
+    finally { clearTimeout(slow); pending.delete(key); }
+  });
+  return queue;
+}
+const byDate = (a,b) => String(b.creeLe||'').localeCompare(String(a.creeLe||''));
+const onErr = e => { console.error(e); toast(errMsg(e)); };
+const listen = (col, q, sort) => q.onSnapshot(snap => { S[col] = snap.docs.map(d => ({...d.data(), id:d.id})).sort(sort); S.loaded[col] = true; scheduleRender(); }, onErr);
+function subscribeCore(){
+  listen('utilisateurs', db.collection('utilisateurs').limit(500), (a,b)=> String(a.nom||'').localeCompare(String(b.nom||''), 'fr'));
+  db.doc('config/societe').onSnapshot(s => { S.config = s.exists ? {...s.data()} : null; S.loaded.config = true; scheduleRender(); }, onErr);
+}
+function subscribeData(){
+  if (S.dataSub) return; S.dataSub = true;
+  listen('clients', db.collection('clients').limit(1000), (a,b)=> String(a.nom||'').localeCompare(String(b.nom||''), 'fr'));
+  listen('produits', db.collection('produits').limit(1000), (a,b)=> String(a.ref||'').localeCompare(String(b.ref||''), 'fr', {numeric:true}));
+  listen('devis', db.collection('devis').orderBy('creeLe','desc').limit(800), byDate);
+  listen('ordres', db.collection('ordres').orderBy('creeLe','desc').limit(800), byDate);
+}
+const NOM_PROP = 'Franck Victor KIDJO';
+function dlSave({filename, data}){ const u = URL.createObjectURL(new Blob([data], {type:'application/pdf'})), a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 1500); }
+function showLogin(on){ $('#login').hidden = !on; if (on){ const m = $('#lg-mail'); if (m && !m.value) m.focus(); } }
+function authMsg(e){
+  const c = e && e.code || '';
+  if (/invalid-credential|wrong-password|user-not-found|invalid-login/.test(c)) return "E-mail ou mot de passe incorrect.";
+  if (/invalid-email/.test(c)) return "Adresse e-mail invalide.";
+  if (/too-many-requests/.test(c)) return "Trop de tentatives. Patientez quelques minutes ou réinitialisez le mot de passe.";
+  if (/network-request-failed/.test(c)) return "Pas de connexion Internet.";
+  if (/email-already-in-use/.test(c)) return "Un compte existe déjà avec cette adresse dans Firebase.";
+  if (/weak-password/.test(c)) return "Mot de passe trop faible : 8 caractères minimum.";
+  if (/unauthorized-domain/.test(c)) return "Ce site n'est pas autorisé dans Firebase : ajoutez son domaine dans Authentication > Paramètres > Domaines autorisés.";
+  if (/operation-not-allowed/.test(c)) return "La connexion par e-mail n'est pas activée dans Firebase (Authentication > Méthode de connexion).";
+  return "Opération impossible pour le moment ("+(c||'erreur')+").";
+}
+async function init(){
+  S.dl = {save: async o => dlSave(o)};
+  if (!window.jspdf) document.body.classList.add('nopdf');
+  if (!window.firebase || !FB){ S.mode = 'memoire'; S.me = {isOwner:true}; S.loaded = {produits:true,devis:true,ordres:true,clients:true,utilisateurs:true,config:true}; render(); return; }
+  firebase.initializeApp(FB); auth = firebase.auth(); db = firebase.firestore(); S.mode = 'db';
+  $('#lg-form').addEventListener('submit', async e => {
+    e.preventDefault(); const err = $('#lg-err'), go = $('#lg-go'); err.hidden = true; go.disabled = true;
+    try { await auth.signInWithEmailAndPassword($('#lg-mail').value.trim(), $('#lg-pwd').value); $('#lg-pwd').value = ''; }
+    catch(x){ err.textContent = authMsg(x); err.hidden = false; } finally { go.disabled = false; }
+  });
+  $('#lg-forgot').addEventListener('click', async () => {
+    const m = $('#lg-mail').value.trim(), err = $('#lg-err');
+    if (!m){ err.textContent = "Saisissez d'abord votre adresse e-mail."; err.hidden = false; return; }
+    try { await auth.sendPasswordResetEmail(m); err.textContent = "Si un compte existe pour "+m+", un e-mail de réinitialisation vient d'être envoyé."; err.hidden = false; }
+    catch(x){ err.textContent = authMsg(x); err.hidden = false; }
+  });
+  auth.onAuthStateChanged(async u => {
+    if (!u){ S.me = null; showLogin(true); $('#main').innerHTML = ''; $('#nav').innerHTML = ''; return; }
+    showLogin(false);
+    S.me = {id: u.uid, name: u.displayName || u.email, email: u.email, isOwner: String(u.email||'').toLowerCase() === OWNER};
+    let rec = null;
+    try { const d = await db.collection('utilisateurs').doc(u.uid).get(); rec = d.exists ? {...d.data(), id: d.id} : null; } catch(e){ console.error(e); }
+    if (!rec && S.me.isOwner){
+      rec = {nom: NOM_PROP, email: u.email, uid: u.uid, role: 'admin', actif: true, creeLe: new Date().toISOString(), majLe: new Date().toISOString()};
+      try { await db.collection('utilisateurs').doc(u.uid).set(rec); } catch(e){ console.error(e); toast("Votre fiche administrateur n'a pas pu être créée : vérifiez les règles Firestore."); }
+      rec.id = u.uid;
+    }
+    S.myRec0 = rec;
+    if (!rec || rec.actif===false){ S.loaded.utilisateurs = true; S.loaded.config = true; render(); return; }
+    subscribeCore(); render();
+  });
+}
+/* Rôle effectif : celui de la fiche Utilisateurs ; le propriétaire est toujours administrateur. */
+function evalAccess(){
+  const me = S.me || {}, rec = S.utilisateurs.find(u => me.id && (u.uid===me.id || u.id===me.id)) || S.myRec0 || null;
+  let role = 'lecture', blocked = null;
+  if (S.mode!=='db' || me.isOwner) role = 'admin';
+  else if (!rec) blocked = 'unknown';
+  else if (rec.actif===false) blocked = 'off';
+  else role = ORD[rec.role]!=null ? rec.role : 'lecture';
+  S.myRec = rec; S.blocked = blocked; S.canWrite = role!=='lecture'; S.isAdmin = role==='admin';
+  document.body.classList.toggle('ro', !S.canWrite); document.body.classList.toggle('noadm', !S.isAdmin);
+  const sync = $('#sync');
+  if (S.mode==='db'){ sync.className = 'rail-foot on'; sync.lastElementChild.innerHTML = esc(me.email||'')+'<br>'+(blocked ? 'Accès non autorisé.' : 'Accès : '+({admin:'administrateur',utilisateur:'utilisateur',lecture:'lecture seule'})[role]+'.')+'<br><button class="lo" type="button" data-act="logout">Se déconnecter</button>'; }
+  else { sync.className = 'rail-foot off'; sync.lastElementChild.textContent = 'Mode hors ligne : données non enregistrées.'; }
+}
+const ready = () => Object.values(S.loaded).every(Boolean);
+
+/* ---------- rendu ---------- */
+let raf = 0;
+function scheduleRender(){ if (raf) return; raf = requestAnimationFrame(() => { raf = 0; render(); }); }
+function render(){
+  const a = document.activeElement, main = $('#main');
+  if (S.mode==='db' && !S.me) return;
+  if (S.loaded.utilisateurs && S.loaded.config) evalAccess();
+  if (db && S.loaded.utilisateurs && S.loaded.config && !S.blocked) subscribeData();
+  if (S.blocked){
+    $('#nav').innerHTML = '';
+    const nom = S.me && S.me.name ? ' ('+esc(S.me.name)+')' : '';
+    const form = `<p class="hint">Demandez à un administrateur de Nature Brique de créer ou de réactiver votre compte.</p><button class="btn" type="button" data-act="logout">Se déconnecter</button>`;
+    main.innerHTML = S.blocked==='off'
+      ? `<header class="vh"><h1>Accès désactivé</h1></header><div class="empty"><p>Votre accès à la plateforme${nom} a été désactivé par un administrateur de Nature Brique.</p><button class="btn" type="button" data-act="logout">Se déconnecter</button></div>`
+      : `<header class="vh"><h1>Accès non autorisé</h1></header><div class="empty"><p>Votre compte${nom} n'est pas dans la liste des utilisateurs de la plateforme.</p>${form}</div>`;
+    return;
+  }
+  if ((S.view==='utilisateurs' || S.view==='admin') && S.loaded.utilisateurs && !S.isAdmin) S.view = 'tableau';
+  const fid = a && a.id && main.contains(a) ? a.id : null; let ss, se; try { ss = a.selectionStart; se = a.selectionEnd; } catch(e){}
+  const open = S.ordres.filter(o => ofStats(o).st!=='livre').length, att = S.devis.filter(d => d.statut==='brouillon'||d.statut==='valide').length;
+  const nReq = pendingReqs().length;
+  const items = [['tableau','Tableau de bord',''],['devis','Devis',att||''],['ordres','Ordres de fabrication',open||''],['clients','Clients',S.clients.length||''],...(S.isAdmin ? [] : [['catalogue','Produits et prix',S.produits.length||''],['parametres','Paramètres','']])];
+  const adm = S.isAdmin ? [['admin','Espace administrateur',nReq||''],['utilisateurs','Utilisateurs',S.utilisateurs.length||''],['catalogue','Produits et prix',S.produits.length||''],['parametres','Paramètres','']] : [];
+  const nb = ([v,l,c]) => `<button type="button" data-act="nav" data-v="${v}" ${S.view===v?'aria-current="page"':''}><span>${l}</span>${c!==''?`<span class="count">${c}</span>`:''}</button>`;
+  $('#nav').innerHTML = items.map(nb).join('') + (adm.length ? `<div class="nav-sec" aria-hidden="true">Administration</div>` + adm.map(nb).join('') : '');
+  main.innerHTML = !(ready() || (!db && S.loaded.config)) ? `<header class="vh"><h1>Chargement des données…</h1></header><div class="empty"><p>Les devis, les ordres de fabrication et le catalogue apparaissent ici dès que la base répond.</p></div>` : banners() + V[S.view]();
+  if (fid){ const n = document.getElementById(fid); if (n){ n.focus({preventScroll:true}); try { if (ss!=null) n.setSelectionRange(ss,se); } catch(e){} } }
+  if (ready() && S.view==='tableau' && S.vue==='graph' && S.agg) drawMois();
+}
+function go(v, keep){ S.view = v; if (!keep){ S.draft = null; S.draftId = null; S.ofId = null; S.cfgDraft = null; } try { history.replaceState(null,'','#'+v); } catch(e){} render(); window.scrollTo(0,0); }
+function banners(){
+  let h = '';
+  if (!S.canWrite) h += `<div class="banner"><span>Vous consultez cette plateforme en lecture seule. Demandez à un administrateur de modifier votre rôle pour créer des devis ou saisir la fabrication.</span></div>`;
+  const ex = [...S.produits, ...S.devis, ...S.ordres].some(d => d.exemple);
+  if (ex && S.isAdmin && S.view!=='parametres') h += `<div class="banner info"><span>Des données d'exemple sont chargées (produits, prix, devis, ordres). Remplacez les prix par vos tarifs, ou supprimez les exemples.</span><button class="btn sm" type="button" data-act="nav" data-v="parametres">Gérer les exemples</button></div>`;
+  return h;
+}
+const V = {};
+
+/* ---------- tableau de bord ---------- */
+function monthsRange(){
+  const now = new Date(); let n = S.periode;
+  if (!n){
+    let min = today().slice(0,7);
+    for (const o of S.ordres){ if (o.date && o.date.slice(0,7) < min) min = o.date.slice(0,7); for (const m of o.mouvements||[]) if (m.date && m.date.slice(0,7) < min) min = m.date.slice(0,7); }
+    n = Math.min(36, (now.getFullYear()-+min.slice(0,4))*12 + now.getMonth()+1 - +min.slice(5,7) + 1);
+  }
+  const out = []; for (let i=n-1;i>=0;i--){ const d = new Date(now.getFullYear(), now.getMonth()-i, 1); out.push(d.getFullYear()+'-'+pad(d.getMonth()+1)); }
+  return out;
+}
+function aggregate(){
+  const months = monthsRange(), idx = new Map(months.map((m,i)=>[m,i])), z = () => months.map(()=>0);
+  const cmd = z(), fab = z(), liv = z(), prod = new Map(), all = new Map(); let reste = 0, resteLiv = 0;
+  const addP = (k, name, f, q) => { let p = prod.get(k); if (!p){ p = {k, name, cmd:0, fab:0, liv:0}; prod.set(k,p); } p[f] += q; };
+  for (const o of S.ordres){
+    const names = new Map(); const mo = (o.date||'').slice(0,7);
+    for (const l of o.lignes||[]){
+      names.set(l.pid, l.designation); all.set(l.pid, l.designation);
+      if (S.fProd && l.pid!==S.fProd) continue;
+      const q = +l.qte||0, s = ofLine(o, l.pid); reste += Math.max(0, q-s.fab); resteLiv += Math.max(0, q-s.liv);
+      if (idx.has(mo)){ cmd[idx.get(mo)] += q; addP(l.pid, l.designation, 'cmd', q); }
+    }
+    for (const m of o.mouvements||[]){
+      if (S.fProd && m.pid!==S.fProd) continue; const mm = (m.date||'').slice(0,7); if (!idx.has(mm)) continue;
+      const f = m.type==='liv' ? 'liv' : 'fab'; (f==='liv'?liv:fab)[idx.get(mm)] += +m.qte||0; addP(m.pid, names.get(m.pid)||'Produit', f, +m.qte||0);
+    }
+  }
+  const sum = a => a.reduce((s,v)=>s+v,0);
+  let ps = [...prod.values()].sort((a,b)=> b.cmd-a.cmd || b.fab-a.fab);
+  if (ps.length > 8){ const rest = ps.slice(7).reduce((r,p)=>{ r.cmd+=p.cmd; r.fab+=p.fab; r.liv+=p.liv; return r; }, {k:'_autres', name:'Autres produits', cmd:0, fab:0, liv:0}); ps = [...ps.slice(0,7), rest]; }
+  return {months, cmd, fab, liv, T:{cmd:sum(cmd), fab:sum(fab), liv:sum(liv)}, reste, resteLiv, prod:ps, all};
+}
+V.tableau = () => {
+  const head = `<header class="vh"><div><h1>Tableau de bord</h1><p class="sub">Produits commandés, fabrication effective et livraisons</p></div><button class="btn primary" type="button" data-w data-act="new-devis">Nouveau devis</button></header>`;
+  if (!S.ordres.length){ S.agg = null; return head + `<div class="empty"><strong>Aucune commande à afficher</strong><p>Les graphiques se remplissent dès qu'un devis est confirmé : l'ordre de fabrication est alors émis, puis vous saisissez les quantités fabriquées et livrées.</p><button class="btn" type="button" data-act="nav" data-v="devis">Voir les devis</button></div>`; }
+  const a = S.agg = aggregate(), pc = (x,y) => y ? Math.round(100*x/y)+' % du commandé' : '—';
+  const per = [[3,'3 mois'],[6,'6 mois'],[12,'12 mois'],[0,'Tout']];
+  const filters = `<div class="row">
+    <div class="seg" role="group" aria-label="Période">${per.map(([v,l]) => `<button type="button" data-act="set" data-k="periode" data-val="${v}" aria-pressed="${S.periode===v}">${l}</button>`).join('')}</div>
+    <select class="in" id="f-prod" data-bind="ui:fProd" data-re="1" style="width:auto;max-width:100%" aria-label="Produit"><option value="">Tous les produits</option>${[...a.all].map(([k,n]) => `<option value="${esc(k)}" ${S.fProd===k?'selected':''}>${esc(n)}</option>`).join('')}</select>
+    <span class="grow"></span>
+    <div class="seg" role="group" aria-label="Affichage"><button type="button" data-act="set" data-k="vue" data-val="graph" aria-pressed="${S.vue==='graph'}">Graphiques</button><button type="button" data-act="set" data-k="vue" data-val="table" aria-pressed="${S.vue==='table'}">Tableaux</button></div>
+  </div>`;
+  const tiles = `<section class="tiles">
+    <div class="tile"><span class="l"><i class="key" style="background:var(--s1)"></i>Commandé</span><span class="v">${fNum(a.T.cmd)}</span><span class="d">unités sur la période</span></div>
+    <div class="tile"><span class="l"><i class="key" style="background:var(--s2)"></i>Fabriqué</span><span class="v">${fNum(a.T.fab)}</span><span class="d">${pc(a.T.fab,a.T.cmd)}</span></div>
+    <div class="tile"><span class="l"><i class="key" style="background:var(--s3)"></i>Livré</span><span class="v">${fNum(a.T.liv)}</span><span class="d">${pc(a.T.liv,a.T.cmd)}</span></div>
+    <div class="tile"><span class="l">Reste à fabriquer</span><span class="v">${fNum(a.reste)}</span><span class="d">${fNum(a.resteLiv)} à livrer, toutes commandes</span></div>
+  </section>`;
+  const legend = `<div class="legend"><span><i class="key" style="background:var(--s1)"></i>Commandé <b>${fNum(a.T.cmd)}</b></span><span><i class="key" style="background:var(--s2)"></i>Fabriqué <b>${fNum(a.T.fab)}</b></span><span><i class="key" style="background:var(--s3)"></i>Livré <b>${fNum(a.T.liv)}</b></span></div>`;
+  let charts;
+  if (S.vue==='table'){
+    charts = `<section class="card"><h2>Quantités par mois</h2><div class="tw"><table><thead><tr><th>Mois</th><th class="r">Commandé</th><th class="r">Fabriqué</th><th class="r">Livré</th></tr></thead><tbody>${a.months.map((m,i)=>`<tr><td>${fMois(m)}</td><td class="r">${fNum(a.cmd[i])}</td><td class="r">${fNum(a.fab[i])}</td><td class="r">${fNum(a.liv[i])}</td></tr>`).join('')}</tbody></table></div></section>
+    <section class="card"><h2>Quantités par produit</h2><div class="tw"><table><thead><tr><th>Produit</th><th class="r">Commandé</th><th class="r">Fabriqué</th><th class="r">Livré</th></tr></thead><tbody>${a.prod.map(p=>`<tr><td>${esc(p.name)}</td><td class="r">${fNum(p.cmd)}</td><td class="r">${fNum(p.fab)}</td><td class="r">${fNum(p.liv)}</td></tr>`).join('') || '<tr><td colspan="4" class="hint">Aucun mouvement sur la période.</td></tr>'}</tbody></table></div></section>`;
+  } else {
+    const max = Math.max(1, ...a.prod.flatMap(p => [p.cmd,p.fab,p.liv]));
+    const bar = (v,c) => `<div class="pb"><i style="width:calc((100% - 74px) * ${(v/max).toFixed(4)});background:var(--${c})"></i><span>${fNum(v)}</span></div>`;
+    charts = `<section class="card"><div class="card-h"><h2>Évolution par mois</h2>${legend}</div><div class="plot" id="ch-mois" role="img" aria-label="Quantités commandées, fabriquées et livrées par mois. Les valeurs sont disponibles dans l'affichage Tableaux."></div></section>
+    <section class="card"><div class="card-h"><h2>Par produit</h2><div class="legend"><span><i class="key" style="background:var(--s1)"></i>Commandé</span><span><i class="key" style="background:var(--s2)"></i>Fabriqué</span><span><i class="key" style="background:var(--s3)"></i>Livré</span></div></div>
+      ${a.prod.length ? `<div class="pbars">${a.prod.map(p => `<div class="prow" data-tip="${esc(p.name+'\nCommandé : '+fNum(p.cmd)+'\nFabriqué : '+fNum(p.fab)+'\nLivré : '+fNum(p.liv))}"><div class="pname">${esc(p.name)}</div><div class="ptrack">${bar(p.cmd,'s1')}${bar(p.fab,'s2')}${bar(p.liv,'s3')}</div></div>`).join('')}</div>` : `<p class="hint">Aucun mouvement sur la période choisie.</p>`}
+    </section>`;
+  }
+  const enCours = S.ordres.filter(o => ofStats(o).st!=='livre').slice(0,5);
+  const listOf = `<section class="card"><div class="card-h"><h2>Ordres en cours</h2><button class="btn sm ghost" type="button" data-act="nav" data-v="ordres">Tous les ordres</button></div>${enCours.length ? `<div class="oflist">${enCours.map(ofCard).join('')}</div>` : `<p class="hint">Tous les ordres de fabrication sont livrés.</p>`}</section>`;
+  return head + filters + tiles + charts + listOf;
+};
+function niceMax(v){ const p = Math.pow(10, Math.floor(Math.log10(v))), f = v/p; return (f<=1?1:f<=2?2:f<=4?4:f<=6?6:f<=8?8:10)*p; }
+function drawMois(){
+  const el = $('#ch-mois'), a = S.agg; if (!el || !a) return;
+  const W = Math.max(260, el.clientWidth), H = 250, m = {l:46, r:12, t:12, b:26}, n = a.months.length;
+  const max = niceMax(Math.max(4, ...a.cmd, ...a.fab, ...a.liv)), iw = W-m.l-m.r, ih = H-m.t-m.b, padx = 14;
+  const x = i => m.l + (n===1 ? iw/2 : padx + (iw-2*padx)*i/(n-1)), y = v => m.t + ih - ih*v/max;
+  let g = '';
+  for (let k=0;k<=4;k++){ const v = max*k/4, yy = y(v); g += `<line x1="${m.l}" x2="${W-m.r}" y1="${yy}" y2="${yy}" stroke="var(--${k?'grid':'line-2'})" stroke-width="1"/><text x="${m.l-8}" y="${yy+4}" text-anchor="end">${fCompact(v)}</text>`; }
+  const step = Math.max(1, Math.ceil(n / Math.max(1, Math.floor(iw/58))));
+  for (let i=n-1;i>=0;i-=step) g += `<text x="${x(i)}" y="${H-7}" text-anchor="middle">${fMois(a.months[i])}</text>`;
+  const ser = [['cmd','s1'],['fab','s2'],['liv','s3']];
+  for (const [k,c] of ser){
+    const pts = a[k].map((v,i) => x(i).toFixed(1)+','+y(v).toFixed(1));
+    if (n>1) g += `<path d="M${pts.join('L')}" fill="none" stroke="var(--${c})" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    g += `<circle cx="${x(n-1)}" cy="${y(a[k][n-1])}" r="4.5" fill="var(--${c})" stroke="var(--surface)" stroke-width="2"/>`;
+  }
+  g += `<g id="ch-hover" visibility="hidden"><line id="ch-x" y1="${m.t}" y2="${m.t+ih}" stroke="var(--line-2)" stroke-width="1"/>${ser.map(([k,c]) => `<circle data-k="${k}" r="4.5" fill="var(--${c})" stroke="var(--surface)" stroke-width="2"/>`).join('')}</g><rect id="ch-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">${g}</svg><div class="tt" hidden></div>`;
+  const tt = el.lastElementChild, hov = $('#ch-hover', el), hit = $('#ch-hit', el);
+  const move = e => {
+    const r = el.getBoundingClientRect(), px = e.clientX - r.left;
+    const i = n===1 ? 0 : Math.max(0, Math.min(n-1, Math.round((px-m.l-padx)/((iw-2*padx)/(n-1)))));
+    hov.setAttribute('visibility','visible'); $('#ch-x', el).setAttribute('x1', x(i)); $('#ch-x', el).setAttribute('x2', x(i));
+    hov.querySelectorAll('circle').forEach(c => { c.setAttribute('cx', x(i)); c.setAttribute('cy', y(a[c.dataset.k][i])); });
+    tt.innerHTML = `<h4>${fMois(a.months[i])}</h4><div><span><i class="key" style="background:var(--s1)"></i>Commandé</span><b>${fNum(a.cmd[i])}</b></div><div><span><i class="key" style="background:var(--s2)"></i>Fabriqué</span><b>${fNum(a.fab[i])}</b></div><div><span><i class="key" style="background:var(--s3)"></i>Livré</span><b>${fNum(a.liv[i])}</b></div>`;
+    tt.hidden = false; const right = x(i) > W/2; tt.style.top = '14px'; tt.style.left = right ? '' : (x(i)+12)+'px'; tt.style.right = right ? (W-x(i)+12)+'px' : '';
+  };
+  hit.addEventListener('pointermove', move); hit.addEventListener('pointerdown', move);
+  hit.addEventListener('pointerleave', () => { hov.setAttribute('visibility','hidden'); tt.hidden = true; });
+}
+
+/* ---------- devis ---------- */
+function blankLine(){ return {pid:'', ref:'', designation:'', unite:'pièce', qte:0, pu:0}; }
+function newDevis(){
+  const c = cfg();
+  S.draft = {numero: nextNum('DEV', S.devis), date: today(), validite: addDays(today(), +c.validite||30), client:{id:'',nom:'',tel:'',email:'',adresse:'',ifu:''}, lignes:[blankLine()], remise:0, tvaOn:true, tva:+c.tva||0, aibOn:true, aib:+c.aib||0, notes:'', statut:'brouillon'};
+  S.draftId = null; go('devis', true);
+}
+function openDevis(id){ const d = S.devis.find(x => x.id===id); if (!d) return; S.draft = clone(d); delete S.draft.id; S.draft.client = Object.assign({id:'',nom:'',tel:'',email:'',adresse:'',ifu:''}, S.draft.client); S.draft.lignes = S.draft.lignes||[]; if (S.draft.aib==null) S.draft.aib = +cfg().aib||0; if (S.draft.aibOn==null) S.draft.aibOn = true; S.draftId = id; go('devis', true); }
+V.devis = () => {
+  if (S.draft) return devisEdit();
+  const head = `<header class="vh"><div><h1>Devis</h1><p class="sub">Du brouillon à la commande confirmée</p></div><button class="btn primary" type="button" data-w data-act="new-devis">Nouveau devis</button></header>`;
+  if (!S.devis.length) return head + `<div class="empty"><strong>Aucun devis</strong><p>Créez un premier devis : choisissez les produits du catalogue, les quantités, puis validez-le. Une fois la commande confirmée, l'ordre de fabrication est émis automatiquement.</p><button class="btn primary" type="button" data-w data-act="new-devis">Créer un devis</button></div>`;
+  const cnt = k => S.devis.filter(d => k==='tous' || d.statut===k).length;
+  const chips = [['tous','Tous'],['brouillon','Brouillons'],['valide','Validés'],['confirme','Confirmés'],['refuse','Refusés']];
+  const q = S.qDevis.trim().toLowerCase();
+  const rows = S.devis.filter(d => (S.fDevis==='tous' || d.statut===S.fDevis) && (!q || (d.numero+' '+(d.client&&d.client.nom||'')).toLowerCase().includes(q)));
+  return head + `<div class="row"><div class="seg" role="group" aria-label="Statut">${chips.map(([k,l]) => `<button type="button" data-act="set" data-k="fDevis" data-val="${k}" aria-pressed="${S.fDevis===k}">${l}<span class="c">${cnt(k)}</span></button>`).join('')}</div><span class="grow"></span><input class="in" id="q-devis" type="search" placeholder="Rechercher un client ou un numéro" data-bind="ui:qDevis" data-re="1" value="${esc(S.qDevis)}" style="width:min(100%,280px)" aria-label="Rechercher un devis"></div>
+  <section class="card"><div class="tw"><table><thead><tr><th>N°</th><th>Date</th><th>Client</th><th class="r">Montant TTC</th><th>Statut</th><th>Ordre</th></tr></thead><tbody>${rows.map(d => `<tr class="click" data-act="open-devis" data-id="${esc(d.id)}"><td><button class="link" type="button" data-act="open-devis" data-id="${esc(d.id)}">${esc(d.numero)}</button></td><td class="num">${fDate(d.date)}</td><td>${esc(d.client&&d.client.nom||'—')}${d.exemple?'<span class="tag-ex">exemple</span>':''}</td><td class="r">${fF(totals(d).ttc)}</td><td>${pill(DST,d.statut)}</td><td>${d.ofNumero?`<span class="mono">${esc(d.ofNumero)}</span>`:'<span class="hint">—</span>'}</td></tr>`).join('') || `<tr><td colspan="6" class="hint">Aucun devis ne correspond à ce filtre.</td></tr>`}</tbody></table></div></section>`;
+};
+function devisEdit(){
+  const d = S.draft, ed = d.statut==='brouillon' && S.canWrite, dis = ed ? '' : 'disabled', t = totals(d), saved = !!S.draftId;
+  const prods = S.produits.filter(p => p.actif!==false);
+  const curC = (d.client.id && S.clients.some(c => c.id===d.client.id)) ? d.client.id : (S.clients.find(c => String(c.nom||'').trim().toLowerCase()===String(d.client.nom||'').trim().toLowerCase() && d.client.nom)||{}).id || '';
+  const lines = d.lignes.map((l,i) => {
+    const opts = prods.map(p => `<option value="${esc(p.id)}" ${l.pid===p.id?'selected':''}>${esc((p.ref?p.ref+' · ':'')+p.nom)}</option>`).join('');
+    const orphan = l.pid && !prods.some(p => p.id===l.pid) ? `<option value="${esc(l.pid)}" selected>${esc(l.designation||'Produit retiré du catalogue')}</option>` : '';
+    return `<tr><td style="min-width:200px"><div class="stack" style="gap:4px"><select class="in" id="l-p-${i}" data-on="line-prod" data-i="${i}" ${dis} aria-label="Produit de la ligne ${i+1}"><option value="">Ligne libre…</option>${orphan}${opts}</select>
+    <input class="in" id="l-d-${i}" data-bind="draft:lignes.${i}.designation" value="${esc(l.designation)}" placeholder="Désignation" ${dis} aria-label="Désignation"></div></td>
+    <td style="width:92px"><input class="in r" id="l-q-${i}" type="number" min="0" step="1" inputmode="numeric" data-bind="draft:lignes.${i}.qte" value="${+l.qte||''}" ${dis} aria-label="Quantité"></td>
+    <td style="width:74px"><input class="in" id="l-u-${i}" data-bind="draft:lignes.${i}.unite" value="${esc(l.unite)}" ${dis} aria-label="Unité"></td>
+    <td style="width:98px"><input class="in r" id="l-pu-${i}" type="number" min="0" step="0.01" inputmode="decimal" data-bind="draft:lignes.${i}.pu" value="${+l.pu||''}" ${dis} aria-label="Prix unitaire hors taxes"></td>
+    <td class="r" id="lt-${i}" style="min-width:86px">${fNum((+l.qte||0)*(+l.pu||0))}</td>
+    <td>${ed?`<button class="btn sm ghost" type="button" data-act="line-del" data-i="${i}" aria-label="Supprimer la ligne ${i+1}">✕</button>`:''}</td></tr>`;
+  }).join('');
+  const act = [];
+  if (d.statut==='brouillon') act.push(`<button class="btn" type="button" data-w data-act="devis-save">Enregistrer le brouillon</button>`);
+  if (d.statut==='valide') act.push(`<button class="btn" type="button" data-w data-act="devis-statut" data-val="refuse">Refusé par le client</button>`, `<button class="btn" type="button" data-w data-act="devis-statut" data-val="brouillon">Rouvrir en brouillon</button>`);
+  const pos = {brouillon:0, valide:1, confirme:3}[d.statut];
+  const steps = d.statut==='refuse' ? '' : `<ol class="steps" aria-label="Étapes du devis">${['Brouillon','Devis validé','Commande confirmée','Ordre de fabrication émis'].map((l,i) => `<li class="${i<pos || pos===3 ? 'done' : i===pos ? 'cur' : ''}"><b>${i+1}</b>${l}</li>`).join('')}</ol>`;
+  const next = {
+    brouillon: `<p><b>Étape suivante : valider le devis.</b> L'ordre de fabrication n'est émis qu'après la confirmation de la commande. Si le client a déjà donné son accord, faites les deux en une fois.</p><div class="row" data-w><button class="btn primary" type="button" data-act="devis-valider">Valider le devis</button><button class="btn" type="button" data-act="devis-valider-confirmer">Valider et confirmer la commande</button></div>`,
+    valide: `<p><b>Étape suivante : confirmer la commande.</b> Dès l'accord du client, confirmez : l'ordre de fabrication est émis et apparaît dans « Ordres de fabrication ».</p><div class="row" data-w><button class="btn primary" type="button" data-act="devis-confirmer">Confirmer la commande et émettre l'ordre</button></div>`,
+    confirme: `<p><b>Commande confirmée.</b> L'ordre de fabrication ${esc(d.ofNumero||'')} a été émis.</p>${d.ofId ? `<div class="row"><button class="btn primary" type="button" data-act="open-of" data-id="${esc(d.ofId)}">Voir l'ordre de fabrication</button></div>` : ''}`,
+    refuse: `<p><b>Devis refusé par le client.</b> Vous pouvez le rouvrir en brouillon ou le dupliquer.</p>`
+  }[d.statut];
+  if (d.statut==='refuse') act.push(`<button class="btn" type="button" data-w data-act="devis-statut" data-val="brouillon">Rouvrir en brouillon</button>`);
+  if (saved) act.push(`<button class="btn" type="button" data-act="mail" data-kind="devis">Envoyer par e-mail</button>`, `<button class="btn" type="button" data-pdf data-act="pdf" data-kind="devis">Télécharger le PDF</button>`, `<button class="btn" type="button" data-w data-act="devis-dup">Dupliquer</button>`);
+  if (saved && d.statut!=='confirme') act.push(`<button class="btn danger" type="button" data-w data-act="devis-del" data-confirm="Confirmer la suppression">Supprimer</button>`);
+  return `<header class="vh"><div><button class="crumb" type="button" data-act="nav" data-v="devis">← Tous les devis</button><h1>Devis <span class="mono" style="font-size:.8em">${esc(d.numero)}</span></h1><p class="sub">${pill(DST,d.statut)}</p></div></header>
+  <section class="next">${steps}${next}<p class="err" id="d-err" hidden></p></section>
+  <div class="edit"><div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+    <section class="card"><div class="card-h"><h2>Client</h2>${ed ? `<button class="btn sm" type="button" data-adm data-act="client-edit" data-id="" data-pick="1">Nouveau client</button>` : ''}</div>
+      <label class="f">Client du devis<select class="in" id="c-sel" data-on="client-sel" ${dis}>${curC ? '' : `<option value="" selected>${d.client.nom ? esc(d.client.nom)+' (hors fichier clients)' : 'Choisir un client…'}</option>`}${S.clients.filter(c => c.actif!==false || c.id===curC).map(c => `<option value="${esc(c.id)}" ${c.id===curC?'selected':''}>${esc(c.nom)}</option>`).join('')}</select></label>
+      ${d.client.nom ? `<dl class="kv" style="margin:0"><div><dt>Téléphone</dt><dd>${esc(d.client.tel||'—')}</dd></div><div><dt>E-mail</dt><dd>${esc(d.client.email||'—')}</dd></div><div><dt>Adresse</dt><dd>${esc(d.client.adresse||'—')}</dd></div><div><dt>N° IFU</dt><dd>${esc(d.client.ifu||'—')}</dd></div></dl>` : `<p class="hint">${S.clients.length ? 'Choisissez un client dans la liste.' : 'Le fichier clients est vide.'} ${S.isAdmin ? '' : 'Seul un administrateur peut créer un client.'}</p>`}
+    </section>
+    <section class="card"><div class="card-h"><h2>Produits</h2>${ed?`<button class="btn sm" type="button" data-act="line-add">Ajouter une ligne</button>`:''}</div>
+      ${!prods.length && ed ? `<p class="hint">Le catalogue est vide. Ajoutez vos produits et vos prix dans « Produits et prix », ou saisissez des lignes libres.</p>`:''}
+      <div class="tw"><table class="lines" style="min-width:590px"><thead><tr><th>Produit et désignation</th><th class="r">Quantité</th><th>Unité</th><th class="r">Prix unit. HT</th><th class="r">Total HT</th><th></th></tr></thead><tbody>${lines || `<tr><td colspan="6" class="hint">Aucune ligne.</td></tr>`}</tbody></table></div>
+    </section>
+    <section class="card"><h2>Conditions</h2><div class="grid2">
+      <label class="f">Date du devis<input class="in" id="d-date" type="date" data-bind="draft:date" value="${esc(d.date)}" ${dis}></label>
+      <label class="f">Valable jusqu'au<input class="in" id="d-val" type="date" data-bind="draft:validite" value="${esc(d.validite)}" ${dis}></label>
+      <label class="f">Remise (%)<input class="in r" id="d-rem" type="number" min="0" max="100" step="0.5" data-bind="draft:remise" value="${+d.remise||0}" ${dis}></label>
+      <label class="f">AIB (%), sur le hors taxe<input class="in r" id="d-aib" type="number" min="0" max="100" step="0.5" data-bind="draft:aib" value="${+d.aib||0}" ${dis}></label>
+      <label class="f">TVA (%), sur le hors taxe<input class="in r" id="d-tva" type="number" min="0" max="100" step="0.5" data-bind="draft:tva" value="${+d.tva||0}" ${dis}></label>
+    </div>
+    <label class="check"><input type="checkbox" id="d-aibon" data-bind="draft:aibOn" ${d.aibOn!==false?'checked':''} ${dis}>Appliquer l'AIB à ce devis</label>
+    <label class="check"><input type="checkbox" id="d-tvaon" data-bind="draft:tvaOn" ${d.tvaOn?'checked':''} ${dis}>Appliquer la TVA à ce devis</label>
+    <label class="f">Notes et conditions (livraison, paiement…)<textarea class="in" id="d-notes" data-bind="draft:notes" ${dis}>${esc(d.notes)}</textarea></label></section>
+  </div>
+  <aside class="card totals"><h2>Total</h2><dl>
+    <dt>Sous-total HT</dt><dd id="t-st">${fF(t.st)}</dd>
+    <dt>Remise</dt><dd id="t-rem">− ${fF(t.rem)}</dd>
+    <dt>Total HT</dt><dd id="t-ht">${fF(t.ht)}</dd>
+    <dt id="t-aib-l">AIB ${d.aibOn!==false ? t.aibRate+' %' : ''}</dt><dd id="t-aib">${fF(t.aib)}</dd>
+    <dt id="t-tva-l">TVA ${d.tvaOn ? (+d.tva||0)+' %' : ''}</dt><dd id="t-tva">${fF(t.tva)}</dd>
+    <dt class="ttc">Total TTC</dt><dd class="ttc" id="t-ttc">${fF(t.ttc)}</dd></dl>
+    <div class="stack">${act.join('')}</div>
+  </aside></div>`;
+}
+function refreshTotals(){
+  const d = S.draft; if (!d) return; const t = totals(d);
+  d.lignes.forEach((l,i) => { const c = $('#lt-'+i); if (c) c.textContent = fNum((+l.qte||0)*(+l.pu||0)); });
+  const set = (id, v) => { const n = $('#'+id); if (n) n.textContent = v; };
+  set('t-st', fF(t.st)); set('t-rem', '− '+fF(t.rem)); set('t-ht', fF(t.ht)); set('t-tva', fF(t.tva)); set('t-aib', fF(t.aib)); set('t-ttc', fF(t.ttc));
+  set('t-aib-l', 'AIB '+(d.aibOn!==false ? t.aibRate+' %' : '')); set('t-tva-l', 'TVA '+(d.tvaOn ? (+d.tva||0)+' %' : ''));
+}
+function devisError(msg){ const e = $('#d-err'); if (e){ e.textContent = msg; e.hidden = false; e.scrollIntoView({block:'center'}); } toast(msg); }
+function devisCheck(strict){
+  const d = S.draft;
+  if (!String(d.client.nom||'').trim()) return devisError("Choisissez le client du devis."), false;
+  if (strict){
+    const ok = d.lignes.filter(l => (+l.qte||0) > 0 && String(l.designation||'').trim());
+    if (!ok.length) return devisError("Ajoutez au moins un produit avec une quantité."), false;
+  }
+  return true;
+}
+async function devisPersist(patch){
+  const d = Object.assign(S.draft, patch||{}); const now = new Date().toISOString();
+  if (!S.draftId){ S.draftId = uid('d'); d.creeLe = now; d.numero = nextNum('DEV', S.devis); }
+  d.majLe = now; delete d.exemple;
+  d.lignes = d.lignes.filter(l => String(l.designation||'').trim() || (+l.qte||0) > 0).map(l => ({...l, qte:+l.qte||0, pu:+l.pu||0}));
+  if (!d.lignes.length) d.lignes = [blankLine()];
+  await setDoc('devis', S.draftId, clone(d));
+}
+
+/* ---------- ordres de fabrication ---------- */
+function ofCard(o){
+  const s = ofStats(o);
+  return `<button class="ofc" type="button" data-act="open-of" data-id="${esc(o.id)}">
+    <span><span class="t"><span class="mono">${esc(o.numero)}</span> · ${esc(o.client&&o.client.nom||'—')}</span>${o.exemple?'<span class="tag-ex">exemple</span>':''}<br><span class="m">Émis le ${fDate(o.date)} · livraison prévue le ${fDate(o.echeance)}${o.priorite==='urgente'?' · urgent':''}</span></span>
+    <span class="meter"><span class="bar"><i style="width:${Math.round(s.pf*100)}%;background:var(--s2)"></i></span><span class="bar"><i style="width:${Math.round(s.pl*100)}%;background:var(--s3)"></i></span><small><span>Fabriqué ${Math.round(s.pf*100)} %</span><span>Livré ${Math.round(s.pl*100)} %</span></small></span>
+    <span class="row" style="justify-content:flex-end">${s.retard?'<span class="pill crit"><span aria-hidden="true">▲</span>En retard</span>':''}${pill(OST,s.st)}</span>
+  </button>`;
+}
+V.ordres = () => {
+  if (S.ofId){ const o = S.ordres.find(x => x.id===S.ofId); if (o) return ofDetail(o); S.ofId = null; }
+  const head = `<header class="vh"><div><h1>Ordres de fabrication</h1><p class="sub">Émis à la confirmation d'un devis, suivis jusqu'à la livraison</p></div></header>`;
+  if (!S.ordres.length) return head + `<div class="empty"><strong>Aucun ordre de fabrication</strong><p>Un ordre apparaît ici dès qu'un devis validé est confirmé par le client. Vous pourrez alors l'envoyer à l'usine par e-mail et saisir les quantités fabriquées et livrées.</p><button class="btn" type="button" data-act="nav" data-v="devis">Voir les devis</button></div>`;
+  const st = S.ordres.map(o => [o, ofStats(o).st]), cnt = k => st.filter(([,s]) => k==='tous' || s===k).length;
+  const chips = [['tous','Tous'],['planifie','À fabriquer'],['encours','En fabrication'],['pret','Fabriqués'],['livre','Livrés']];
+  const rows = st.filter(([,s]) => S.fOf==='tous' || s===S.fOf).map(([o]) => o);
+  return head + `<div class="row"><div class="seg" role="group" aria-label="Statut">${chips.map(([k,l]) => `<button type="button" data-act="set" data-k="fOf" data-val="${k}" aria-pressed="${S.fOf===k}">${l}<span class="c">${cnt(k)}</span></button>`).join('')}</div></div>
+  <div class="oflist">${rows.map(ofCard).join('') || `<p class="hint">Aucun ordre dans cet état.</p>`}</div>`;
+};
+function ofDetail(o){
+  const s = ofStats(o), mv = S.mv || (S.mv = {type:'fab', date:today(), pid:(o.lignes[0]||{}).pid||'', qte:'', note:''});
+  const names = new Map(o.lignes.map(l => [l.pid, l.designation]));
+  const rows = o.lignes.map(l => { const x = ofLine(o,l.pid), q = +l.qte||0; return `<tr><td>${l.ref?`<span class="mono">${esc(l.ref)}</span><br>`:''}${esc(l.designation)}</td><td class="r">${fNum(q)} <span class="hint">${esc(l.unite||'')}</span></td><td class="r">${fNum(x.fab)}</td><td class="r">${fNum(x.liv)}</td><td class="r">${fNum(Math.max(0,q-x.fab))}</td><td style="min-width:120px"><span class="meter"><span class="bar"><i style="width:${q?Math.min(100,Math.round(100*x.fab/q)):0}%;background:var(--s2)"></i></span><span class="bar"><i style="width:${q?Math.min(100,Math.round(100*x.liv/q)):0}%;background:var(--s3)"></i></span></span></td></tr>`; }).join('');
+  const jr = [...(o.mouvements||[])].sort((a,b) => String(b.date).localeCompare(String(a.date))).map(m => `<div class="jr"><span class="pill ${m.type==='liv'?'good':'warn'}">${m.type==='liv'?'Livraison':'Fabrication'}</span><span><span class="num">${fDate(m.date)}</span> · ${esc(names.get(m.pid)||'Produit')}${m.note?`<br><span class="note">${esc(m.note)}</span>`:''}</span><b class="num">${fNum(m.qte)}</b><button class="btn sm ghost danger" type="button" data-w data-act="mv-del" data-id="${esc(m.id)}" data-confirm="Supprimer ?" aria-label="Supprimer ce mouvement">✕</button></div>`).join('');
+  return `<header class="vh"><div><button class="crumb" type="button" data-act="nav" data-v="ordres">← Tous les ordres</button><h1>Ordre <span class="mono" style="font-size:.8em">${esc(o.numero)}</span></h1><p class="sub">${pill(OST,s.st)} ${s.retard?'<span class="pill crit"><span aria-hidden="true">▲</span>En retard</span>':''}${o.priorite==='urgente'?' <span class="pill warn">Urgent</span>':''}</p></div>
+    <div class="row"><button class="btn primary" type="button" data-act="mail" data-kind="of">Envoyer par e-mail</button><button class="btn" type="button" data-pdf data-act="pdf" data-kind="of">Télécharger le PDF</button><button class="btn" type="button" data-w data-act="of-edit">Modifier</button><button class="btn danger" type="button" data-w data-act="of-del" data-confirm="Confirmer la suppression">Supprimer</button></div></header>
+  <section class="card"><dl class="kv" style="margin:0">
+    <div><dt>Client</dt><dd>${esc(o.client&&o.client.nom||'—')}${o.client&&o.client.tel?'<br><span class="hint">'+esc(o.client.tel)+'</span>':''}</dd></div>
+    <div><dt>Chantier / adresse</dt><dd>${esc(o.client&&o.client.adresse||'—')}</dd></div>
+    <div><dt>Devis d'origine</dt><dd>${o.devisId && S.devis.some(d=>d.id===o.devisId) ? `<button class="link" type="button" data-act="open-devis" data-id="${esc(o.devisId)}">${esc(o.devisNumero||'')}</button>` : `<span class="mono">${esc(o.devisNumero||'—')}</span>`}</dd></div>
+    <div><dt>Émis le</dt><dd class="num">${fDate(o.date)}</dd></div>
+    <div><dt>Livraison prévue</dt><dd class="num">${fDate(o.echeance)}</dd></div>
+    <div><dt>Envoi par e-mail</dt><dd>${o.envoi ? 'Envoyé à '+esc(o.envoi.a||'l\'usine')+' le '+fDate(o.envoi.date) : '<span class="hint">Pas encore envoyé</span>'}</dd></div>
+  </dl>${o.instructions?`<div><span class="hint">Instructions pour l'usine</span><p style="white-space:pre-line">${esc(o.instructions)}</p></div>`:''}</section>
+  <section class="card"><div class="card-h"><h2>Produits à fabriquer</h2><div class="legend"><span><i class="key" style="background:var(--s2)"></i>Fabriqué</span><span><i class="key" style="background:var(--s3)"></i>Livré</span></div></div><div class="tw"><table style="min-width:640px"><thead><tr><th>Produit</th><th class="r">Commandé</th><th class="r">Fabriqué</th><th class="r">Livré</th><th class="r">Reste à fabriquer</th><th>Avancement</th></tr></thead><tbody>${rows}</tbody></table></div></section>
+  <section class="card" data-w><h2>Saisir une fabrication ou une livraison</h2>
+    <div class="row"><div class="seg" role="group" aria-label="Type de mouvement"><button type="button" data-act="mv-type" data-val="fab" aria-pressed="${mv.type==='fab'}">Fabrication</button><button type="button" data-act="mv-type" data-val="liv" aria-pressed="${mv.type==='liv'}">Livraison</button></div></div>
+    <div class="grid2">
+      <label class="f">Date<input class="in" id="mv-date" type="date" data-bind="mv:date" value="${esc(mv.date)}"></label>
+      <label class="f">Produit<select class="in" id="mv-pid" data-bind="mv:pid">${o.lignes.map(l => `<option value="${esc(l.pid)}" ${mv.pid===l.pid?'selected':''}>${esc(l.designation)}</option>`).join('')}</select></label>
+      <label class="f">Quantité<input class="in r" id="mv-qte" type="number" min="1" step="1" inputmode="numeric" data-bind="mv:qte" value="${esc(mv.qte)}"></label>
+      <label class="f">${mv.type==='liv'?'N° de bon de livraison, camion…':'Four, équipe, remarque…'}<input class="in" id="mv-note" data-bind="mv:note" value="${esc(mv.note)}"></label>
+    </div>
+    <p class="err" id="mv-err" hidden></p>
+    <div class="row"><button class="btn primary" type="button" data-act="mv-add">${mv.type==='liv'?'Enregistrer la livraison':'Enregistrer la fabrication'}</button></div>
+  </section>
+  <section class="card"><h2>Journal des mouvements</h2>${jr ? `<div class="journal">${jr}</div>` : `<p class="hint">Aucune fabrication ni livraison saisie pour cet ordre.</p>`}</section>`;
+}
+
+function pendingReqs(){ const known = new Set(S.utilisateurs.map(u => u.uid).filter(Boolean)); return S.demandes.filter(d => !known.has(d.id)); }
+
+/* ---------- espace administrateur ---------- */
+V.admin = () => {
+  const reqs = pendingReqs(), us = S.utilisateurs;
+  const uAct = us.filter(u => u.actif!==false && u.uid).length, uAtt = us.filter(u => u.actif!==false && !u.uid).length, uOff = us.filter(u => u.actif===false).length;
+  const pOn = S.produits.filter(p => p.actif!==false).length, pOff = S.produits.length - pOn;
+  const tile = (l, v, d) => `<div class="tile"><span class="l">${l}</span><span class="v">${v}</span><span class="d">${d}</span></div>`;
+  const qa = (cls, attrs, t, d) => `<button class="qa-b ${cls}" type="button" ${attrs}><b>${t}</b><span>${d}</span></button>`;
+  const pl = {admin:'acc', utilisateur:'', lecture:''};
+  const etat = u => u.actif===false ? '<span class="pill crit"><span aria-hidden="true">✕</span>Désactivé</span>' : u.uid ? '<span class="pill good"><i class="st f" aria-hidden="true"></i>Actif</span>' : '<span class="pill warn"><i class="st h" aria-hidden="true"></i>En attente</span>';
+  const lastP = [...S.produits].sort((a,b) => String(b.majLe||'').localeCompare(String(a.majLe||''))).slice(0,6);
+  return `<header class="vh"><div><h1>Espace administrateur</h1><p class="sub">Comptes des utilisateurs, catalogue des produits et réglages de la plateforme</p></div></header>
+  ${reqs.length ? `<div class="banner"><span><b>${reqs.length} demande${reqs.length>1?'s':''} d'accès</b> en attente d'approbation.</span><button class="btn sm" type="button" data-act="nav" data-v="utilisateurs">Traiter les demandes</button></div>` : ''}
+  <section class="tiles">
+    ${tile('Utilisateurs actifs', uAct, uAtt ? uAtt+' en attente de première connexion' : 'tous connectés au moins une fois')}
+    ${tile('Devis', S.devis.length, S.ordres.length+' ordre(s) de fabrication')}
+    ${tile('Produits au catalogue', pOn, pOff ? pOff+' masqué(s) dans les devis' : 'tous proposés dans les devis')}
+    ${tile('Clients', S.clients.length, 'dans le fichier clients')}
+  </section>
+  <section class="qa">
+    ${qa('main', 'data-act="user-edit" data-id=""', 'Créer un utilisateur', 'Nom, e-mail, rôle et mot de passe provisoire')}
+    ${qa('main', 'data-act="prod-edit" data-id=""', 'Ajouter un produit', 'Référence, format et prix de la liste')}
+    ${qa('', 'data-act="client-edit" data-id=""', 'Nouveau client', 'Fiche utilisée dans les devis')}
+    ${qa('', 'data-act="nav" data-v="parametres"', 'Paramètres', 'Coordonnées, AIB, TVA, mentions des devis')}
+  </section>
+  <div class="two">
+    <section class="card"><div class="card-h"><h2>Utilisateurs</h2><button class="btn sm ghost" type="button" data-act="nav" data-v="utilisateurs">Gérer les utilisateurs</button></div>
+      ${us.length ? `<div class="tw"><table><thead><tr><th>Nom</th><th>Rôle</th><th>État</th><th></th></tr></thead><tbody>${us.slice(0,8).map(u => `<tr><td><b>${esc(u.nom)}</b><br><span class="hint">${esc(u.email||'—')}</span></td><td><span class="pill ${pl[u.role]||''}">${ROLES[u.role]||esc(u.role)}</span></td><td>${etat(u)}</td><td class="r"><button class="btn sm" type="button" data-act="user-edit" data-id="${esc(u.id)}">Modifier</button></td></tr>`).join('')}</tbody></table></div>${us.length>8 ? `<p class="hint">Et ${us.length-8} autre(s).</p>` : ''}` : `<p class="hint">Aucun utilisateur enregistré. Créez les comptes des commerciaux, du responsable de production et de la comptabilité.</p>`}
+      <p class="hint">${uOff ? uOff+' compte(s) désactivé(s). ' : ''}Après la création, envoyez l'invitation avec « Inviter » dans l'onglet Utilisateurs et communiquez le mot de passe provisoire séparément.</p>
+    </section>
+    <section class="card"><div class="card-h"><h2>Produits récemment modifiés</h2><button class="btn sm ghost" type="button" data-act="nav" data-v="catalogue">Gérer le catalogue</button></div>
+      ${lastP.length ? `<div class="tw"><table><thead><tr><th>Produit</th><th class="r">Prix liste<br>(AIB incl.)</th><th class="r">Prix HT</th><th></th></tr></thead><tbody>${lastP.map(p => `<tr><td><span class="mono">${esc(p.ref||'—')}</span> ${esc(p.nom)}${p.actif===false?' <span class="pill">Masqué</span>':''}</td><td class="r">${fP(r2((+p.prix||0)*aibK()))}</td><td class="r">${fP(p.prix)}</td><td class="r"><button class="btn sm" type="button" data-act="prod-edit" data-id="${esc(p.id)}">Modifier</button></td></tr>`).join('')}</tbody></table></div>` : `<p class="hint">Le catalogue est vide.</p>`}
+    </section>
+  </div>
+  <section class="card"><h2>Importer des données</h2><p class="hint">Reprend un fichier d'export (produits, clients, devis, ordres, paramètres), par exemple celui de l'ancienne version dans Claude. Les fiches de même identifiant sont remplacées ; rien n'est supprimé.</p>
+    <div class="row"><input class="in" id="imp-file" type="file" accept="application/json,.json" style="width:auto;max-width:100%"><button class="btn" type="button" data-act="import">Importer le fichier</button></div><p class="hint" id="imp-msg">${esc(S.impMsg||'')}</p></section>`;
+};
+
+/* ---------- catalogue ---------- */
+V.catalogue = () => {
+  const adm = S.isAdmin;
+  const head = `<header class="vh"><div><h1>Produits et prix</h1><p class="sub">${adm ? 'Modifiez une référence, une désignation ou un prix directement dans le tableau : la modification est enregistrée dès que vous quittez la case.' : 'Catalogue utilisé dans les devis. Seul un administrateur peut le modifier.'} Les devis déjà émis gardent leurs prix.</p></div><button class="btn primary" type="button" data-adm data-act="prod-edit" data-id="">Ajouter un produit</button></header>`;
+  if (!S.produits.length) return head + `<div class="empty"><strong>Catalogue vide</strong><p>Ajoutez vos briques, hourdis, claustras et autres produits avec leur prix unitaire hors taxes. Ils seront proposés dans chaque nouveau devis.</p><button class="btn primary" type="button" data-adm data-act="prod-edit" data-id="">Ajouter un produit</button></div>`;
+  const cell = (p, f, lab, w, num) => `<input class="in ${num?'r':''}" id="pc-${esc(p.id)}-${f}" ${num ? 'type="number" min="0" step="0.01" inputmode="decimal"' : ''} data-on="prod-cell" data-id="${esc(p.id)}" data-f="${f}" value="${esc(S.pedit[p.id+':'+f] ?? p[f] ?? '')}" aria-label="${lab}" style="min-width:${w}px">`;
+  const row = p => adm
+    ? `<tr><td>${cell(p,'ref','Référence',84)}</td><td>${cell(p,'nom','Désignation',190)}</td><td>${cell(p,'format','Format',130)}</td><td>${cell(p,'unite','Unité',74)}</td><td>${cell(p,'prix','Prix unitaire hors taxes',104,true)}</td><td class="r">${fP(r2((+p.prix||0)*aibK()))}</td><td><label class="check"><input type="checkbox" id="pc-${esc(p.id)}-actif" data-on="prod-cell" data-id="${esc(p.id)}" data-f="actif" ${p.actif!==false?'checked':''}>Proposé</label></td><td><button class="btn sm danger" type="button" data-act="prod-del" data-id="${esc(p.id)}" data-confirm="Confirmer le retrait">Retirer</button></td></tr>`
+    : `<tr><td class="mono">${esc(p.ref||'—')}</td><td>${esc(p.nom)}</td><td class="num">${esc(p.format||'—')}</td><td>${esc(p.unite||'')}</td><td class="r">${fP(p.prix)}</td><td class="r">${fP(r2((+p.prix||0)*aibK()))}</td><td>${p.actif!==false?'<span class="pill good"><i class="st f" aria-hidden="true"></i>Au catalogue</span>':'<span class="pill"><i class="st o" aria-hidden="true"></i>Masqué</span>'}</td><td></td></tr>`;
+  return head + `<section class="card"><div class="tw"><table class="${adm?'cat':''}" style="min-width:${adm?960:820}px"><thead><tr><th>Réf.</th><th>Désignation</th><th>Format (mm)</th><th>Unité</th><th class="r">Prix unit. HT (F CFA)</th><th class="r">Prix liste, AIB incl.</th><th>Dans les devis</th><th></th></tr></thead><tbody>${S.produits.map(row).join('')}</tbody></table></div></section>`;
+};
+
+/* ---------- utilisateurs ---------- */
+V.utilisateurs = () => {
+  const head = `<header class="vh"><div><h1>Utilisateurs</h1><p class="sub">Les comptes qui peuvent se connecter à la plateforme, et leur rôle.</p></div><button class="btn primary" type="button" data-adm data-act="user-edit" data-id="">Créer un utilisateur</button></header>`;
+  const how = `<section class="card"><h2>Créer un compte</h2>
+    <ol class="how"><li>Cliquez sur « Créer un utilisateur » : nom, e-mail, rôle et mot de passe provisoire (8 caractères au moins).</li>
+    <li>Cliquez sur « Inviter » : un e-mail prêt à envoyer contient l'adresse du site et l'identifiant. Communiquez le mot de passe provisoire séparément (téléphone, WhatsApp).</li>
+    <li>À sa première connexion, la personne change son mot de passe avec « Mot de passe oublié ? ».</li></ol>
+    <p class="hint">Décocher « Compte actif » ou retirer l'utilisateur coupe immédiatement son accès aux données. Le propriétaire (${esc(OWNER)}) reste toujours administrateur.</p></section>`;
+  if (!S.utilisateurs.length) return head + how + `<div class="empty"><strong>Aucun utilisateur enregistré</strong><p>Créez les comptes des personnes de Nature Brique qui utiliseront la plateforme : commerciaux, responsable de production, comptabilité.</p><button class="btn primary" type="button" data-adm data-act="user-edit" data-id="">Créer un utilisateur</button></div>`;
+  const pl = {admin:'acc', utilisateur:'', lecture:''};
+  return head + how + `<section class="card"><div class="tw"><table style="min-width:680px"><thead><tr><th>Nom</th><th>E-mail de connexion</th><th>Rôle</th><th>État</th><th></th></tr></thead><tbody>${S.utilisateurs.map(u => `<tr><td><b>${esc(u.nom)}</b>${S.myRec && S.myRec.id===u.id ? ' <span class="hint">(vous)</span>' : ''}</td><td>${esc(u.email||'—')}</td><td><span class="pill ${pl[u.role]||''}">${ROLES[u.role]||esc(u.role)}</span></td><td>${u.actif===false ? '<span class="pill crit"><span aria-hidden="true">✕</span>Désactivé</span>' : '<span class="pill good"><i class="st f" aria-hidden="true"></i>Actif</span>'}</td><td><div class="row" style="justify-content:flex-end;flex-wrap:nowrap"><button class="btn sm" type="button" data-act="user-invite" data-id="${esc(u.id)}">Inviter</button><button class="btn sm" type="button" data-act="user-edit" data-id="${esc(u.id)}">Modifier</button><button class="btn sm danger" type="button" data-act="user-del" data-id="${esc(u.id)}" data-confirm="Confirmer">Retirer</button></div></td></tr>`).join('')}</tbody></table></div></section>`;
+};
+function userDlg(id){
+  const u = S.utilisateurs.find(x => x.id===id) || {nom:'', email:'', role:'utilisateur', actif:true};
+  openDlg(`<h2>${id?"Modifier l'utilisateur":'Créer un utilisateur'}</h2>
+  <div class="grid2">
+    <label class="f">Nom<input class="in" id="u-nom" value="${esc(u.nom)}" autocomplete="off"></label>
+    <label class="f">E-mail de connexion<input class="in" id="u-mail" type="email" value="${esc(u.email)}" placeholder="prenom@naturebrique.com" ${id?'disabled':''}></label>
+    <label class="f">Rôle<select class="in" id="u-role">${Object.keys(ROLES).map(r => `<option value="${r}" ${u.role===r?'selected':''}>${ROLES[r]}</option>`).join('')}</select></label>
+    ${id ? '' : `<label class="f">Mot de passe provisoire<input class="in" id="u-pwd" type="text" autocomplete="off" placeholder="8 caractères au moins"></label>`}
+  </div>
+  <label class="check"><input type="checkbox" id="u-actif" ${u.actif!==false?'checked':''}>Compte actif</label>
+  <p class="hint">Administrateur : tout. Utilisateur : devis, ordres, fabrication et livraisons. Lecture seule : consultation.${id ? " L'adresse de connexion ne se modifie pas ici." : ''}</p>
+  <p class="err" id="u-err" hidden></p>
+  <div class="dlg-f">${id && u.email ? `<button class="btn" type="button" data-act="user-reset" data-id="${esc(id)}">Envoyer un e-mail de nouveau mot de passe</button>` : ''}<button class="btn" type="button" data-act="dlg-close">Annuler</button><button class="btn primary" type="button" data-act="user-save" data-id="${esc(id||'')}">${id?'Enregistrer':'Créer le compte'}</button></div>`);
+}
+let uq = 0;
+async function userSearch(q){
+  const res = $('#u-res'); if (!res || !S.usr) return; const my = ++uq; let hits = [];
+  try { hits = q.trim().length >= 2 ? await S.usr.search(q.trim()) : []; } catch(e){}
+  if (my !== uq || !$('#u-res')) return; res.textContent = '';
+  window.__hits = hits;
+  if (!hits.length){ if (q.trim().length >= 2){ const p = document.createElement('p'); p.className = 'hint'; p.textContent = "Aucune personne trouvée. Pour une personne extérieure à l'organisation, saisissez directement son nom et son e-mail ci-dessous."; res.appendChild(p); } return; }
+  hits.forEach((h, i) => { const b = document.createElement('button'); b.type = 'button'; b.dataset.act = 'user-pick'; b.dataset.i = i; const n = document.createElement('span'); n.textContent = h.name || 'Sans nom'; const m = document.createElement('small'); m.textContent = h.email || ''; b.append(n, m); res.appendChild(b); });
+}
+
+/* ---------- clients ---------- */
+V.clients = () => {
+  const head = `<header class="vh"><div><h1>Clients</h1><p class="sub">Fichier clients utilisé dans les devis. ${S.isAdmin ? '' : 'Seul un administrateur peut créer ou modifier un client.'}</p></div><button class="btn primary" type="button" data-adm data-act="client-edit" data-id="">Nouveau client</button></header>`;
+  if (!S.clients.length) return head + `<div class="empty"><strong>Aucun client</strong><p>Un devis se fait pour un client du fichier. Créez la fiche du client (nom, téléphone, e-mail, adresse, IFU) : elle sera proposée dans chaque nouveau devis.</p><button class="btn primary" type="button" data-adm data-act="client-edit" data-id="">Créer un client</button></div>`;
+  const nb = c => S.devis.filter(d => d.client && (d.client.id===c.id || String(d.client.nom||'').trim().toLowerCase()===String(c.nom||'').trim().toLowerCase())).length;
+  return head + `<section class="card"><div class="tw"><table style="min-width:760px"><thead><tr><th>Client</th><th>Téléphone</th><th>E-mail</th><th>Adresse</th><th>N° IFU</th><th class="r">Devis</th><th></th></tr></thead><tbody>${S.clients.map(c => `<tr><td><b>${esc(c.nom)}</b>${c.exemple?'<span class="tag-ex">exemple</span>':''}</td><td class="num">${esc(c.tel||'—')}</td><td>${esc(c.email||'—')}</td><td>${esc(c.adresse||'—')}</td><td class="mono">${esc(c.ifu||'—')}</td><td class="r">${nb(c)}</td><td><div class="row" style="justify-content:flex-end;flex-wrap:nowrap" data-adm><button class="btn sm" type="button" data-act="client-edit" data-id="${esc(c.id)}">Modifier</button><button class="btn sm danger" type="button" data-act="client-del" data-id="${esc(c.id)}" data-confirm="Confirmer">Retirer</button></div></td></tr>`).join('')}</tbody></table></div></section>`;
+};
+function clientDlg(id, pick){
+  const c = S.clients.find(x => x.id===id) || {nom:'', tel:'', email:'', adresse:'', ifu:''};
+  openDlg(`<h2>${id?'Modifier le client':'Nouveau client'}</h2>
+  <div class="grid2">
+    <label class="f">Nom ou raison sociale<input class="in" id="k-nom" value="${esc(c.nom)}" autocomplete="off"></label>
+    <label class="f">Téléphone<input class="in" id="k-tel" type="tel" value="${esc(c.tel)}"></label>
+    <label class="f">E-mail<input class="in" id="k-email" type="email" value="${esc(c.email)}"></label>
+    <label class="f">N° IFU<input class="in" id="k-ifu" value="${esc(c.ifu)}"></label>
+  </div>
+  <label class="f">Adresse<input class="in" id="k-adr" value="${esc(c.adresse)}"></label>
+  <p class="err" id="k-err" hidden></p>
+  <div class="dlg-f"><button class="btn" type="button" data-act="dlg-close">Annuler</button><button class="btn primary" type="button" data-act="client-save" data-id="${esc(id||'')}" data-pick="${pick?1:''}">${id?'Enregistrer':'Créer le client'}</button></div>`);
+}
+
+/* ---------- paramètres ---------- */
+V.parametres = () => {
+  const c = S.cfgDraft || (S.cfgDraft = clone(cfg())), dis = S.isAdmin ? '' : 'disabled';
+  const nx = {d: S.devis.filter(d=>d.exemple).length, o: S.ordres.filter(d=>d.exemple).length, p: S.produits.filter(d=>d.exemple).length, c: S.clients.filter(d=>d.exemple).length};
+  return `<header class="vh"><div><h1>Paramètres</h1><p class="sub">Coordonnées imprimées sur les devis et les ordres, taxes, adresse de l'usine</p></div></header>
+  <section class="card"><h2>Société</h2><div class="grid2">
+    <label class="f">Raison sociale<input class="in" id="g-soc" data-bind="cfg:societe" value="${esc(c.societe)}" ${dis}></label>
+    <label class="f">Téléphone<input class="in" id="g-tel" data-bind="cfg:tel" value="${esc(c.tel)}" ${dis}></label>
+    <label class="f">E-mail commercial<input class="in" id="g-mail" type="email" data-bind="cfg:email" value="${esc(c.email)}" ${dis}></label>
+    <label class="f">E-mail de l'usine (destinataire des ordres)<input class="in" id="g-atl" type="email" data-bind="cfg:emailAtelier" value="${esc(c.emailAtelier)}" ${dis}></label>
+    <label class="f">Compte Gmail utilisé pour envoyer les e-mails<input class="in" id="g-env" type="email" data-bind="cfg:emailEnvoi" value="${esc(c.emailEnvoi)}" placeholder="adresse@gmail.com" ${dis}></label>
+    <label class="f">Siège social<input class="in" id="g-siege" data-bind="cfg:siege" value="${esc(c.siege)}" ${dis}></label>
+    <label class="f">Site de production<input class="in" id="g-usine" data-bind="cfg:usine" value="${esc(c.usine)}" ${dis}></label>
+    <label class="f">AIB par défaut (%)<input class="in r" id="g-aib" type="number" min="0" max="100" step="0.5" data-bind="cfg:aib" value="${+c.aib||0}" ${dis}></label>
+    <label class="f">TVA par défaut (%)<input class="in r" id="g-tva" type="number" min="0" max="100" step="0.5" data-bind="cfg:tva" value="${+c.tva||0}" ${dis}></label>
+    <label class="f">Validité d'un devis (jours)<input class="in r" id="g-val" type="number" min="1" step="1" data-bind="cfg:validite" value="${+c.validite||30}" ${dis}></label>
+  </div>
+  <label class="f">Mentions en bas des devis (RCCM, IFU, conditions de paiement…)<textarea class="in" id="g-ment" data-bind="cfg:mentions" ${dis}>${esc(c.mentions)}</textarea></label>
+  <div class="row" data-adm><button class="btn primary" type="button" data-act="cfg-save">Enregistrer les paramètres</button></div></section>
+  <section class="card"><h2>Accès et rôles</h2><p>La plateforme est privée : seules les personnes dont un administrateur a créé le compte peuvent se connecter et lire les données. L'onglet « Utilisateurs » gère les comptes et les rôles. Votre accès actuel : <b>${S.isAdmin ? 'administrateur' : S.canWrite ? 'utilisateur' : 'lecture seule'}</b>.</p>
+  <div class="tw"><table style="min-width:420px"><thead><tr><th>Rôle</th><th>Droits</th></tr></thead><tbody>
+    <tr><td><b>Administrateur</b></td><td>Tout : produits et prix, clients, paramètres, devis, ordres</td></tr>
+    <tr><td><b>Utilisateur</b></td><td>Devis, ordres de fabrication, saisie de la fabrication et des livraisons</td></tr>
+    <tr><td><b>Lecture seule</b></td><td>Consultation, sans aucune modification</td></tr>
+  </tbody></table></div></section>
+  ${nx.d+nx.o+nx.p+nx.c ? `<section class="card" data-adm><h2>Données d'exemple</h2><p class="hint">${nx.p} produit(s), ${nx.d} devis et ${nx.o} ordre(s) d'exemple sont chargés pour montrer le fonctionnement. Un produit d'exemple que vous modifiez devient le vôtre et n'est plus supprimé ici.</p><div class="row"><button class="btn danger" type="button" data-act="ex-del" data-scope="docs" data-confirm="Confirmer la suppression">Supprimer les devis et ordres d'exemple</button><button class="btn danger" type="button" data-act="ex-del" data-scope="all" data-confirm="Confirmer la suppression">Tout supprimer, produits et clients compris</button></div></section>` : ''}`;
+};
+
+/* ---------- dialogues ---------- */
+const dlg = $('#dlg');
+function openDlg(html){ dlg.innerHTML = `<div class="dlg">${html}</div>`; dlg.hidden = false; const f = dlg.querySelector('input,select,textarea,button'); if (f) f.focus(); }
+function closeDlg(){ dlg.hidden = true; dlg.innerHTML = ''; }
+function armed(btn){
+  if (btn.dataset.armed) return true;
+  btn.dataset.armed = '1'; btn.dataset.label = btn.textContent; btn.textContent = btn.dataset.confirm || 'Confirmer ?'; btn.classList.add('armed');
+  setTimeout(() => { if (btn.isConnected && btn.dataset.armed){ delete btn.dataset.armed; btn.textContent = btn.dataset.label; btn.classList.remove('armed'); } }, 4500);
+  return false;
+}
+function prodDlg(id){
+  const p = S.produits.find(x => x.id===id) || {ref:'', nom:'', format:'', unite:'pièce', prix:'', actif:true};
+  openDlg(`<h2>${id?'Modifier le produit':'Ajouter un produit'}</h2>
+  <div class="grid2">
+    <label class="f">Référence<input class="in" id="p-ref" value="${esc(p.ref)}" placeholder="BC-01"></label>
+    <label class="f">Désignation<input class="in" id="p-nom" value="${esc(p.nom)}" placeholder="Brique pleine"></label>
+    <label class="f">Format L × l × h (mm)<input class="in" id="p-format" value="${esc(p.format)}" placeholder="220 × 110 × 60"></label>
+    <label class="f">Unité de vente<input class="in" id="p-unite" value="${esc(p.unite)}" placeholder="pièce, m², palette"></label>
+    <label class="f">Prix de la liste, HTVA AIB incluse (F CFA)<input class="in r" id="p-liste" type="number" min="0" step="0.01" inputmode="decimal" value="${p.prix===''?'':r2((+p.prix||0)*aibK())}"></label>
+    <label class="f">Prix unitaire HT enregistré (F CFA)<input class="in r" id="p-prix" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(p.prix)}"></label>
+  </div>
+  <p class="calc" id="p-calc">${prodCalc(p.prix)}</p>
+  <label class="check"><input type="checkbox" id="p-actif" ${p.actif!==false?'checked':''}>Proposer ce produit dans les nouveaux devis</label>
+  <p class="err" id="p-err" hidden></p>
+  <div class="dlg-f"><button class="btn" type="button" data-act="dlg-close">Annuler</button><button class="btn primary" type="button" data-act="prod-save" data-id="${esc(id||'')}">${id?'Enregistrer':'Ajouter au catalogue'}</button></div>`);
+}
+function prodCalc(ht){
+  if (ht==='' || ht==null || !(+ht >= 0)) return "Saisissez le prix de la liste : le prix HT est calculé en retirant l'AIB ("+(+cfg().aib||0)+" %). Le devis ajoute ensuite l'AIB et la TVA.";
+  const h = +ht, a = r2(h*(+cfg().aib||0)/100), t = r2(h*(+cfg().tva||0)/100);
+  return 'Pour une pièce : HT '+fP(h)+' + AIB '+fP(a)+' + TVA '+fP(t)+' = <b>'+fP(r2(h+a+t))+'</b> à payer. Prix TVAC sans AIB : '+fP(r2(h+t))+'.';
+}
+function confirmDlg(){
+  const d = S.draft, n = nextNum('OF', S.ordres);
+  openDlg(`<h2>Confirmer la commande</h2><p>Le client <b>${esc(d.client.nom)}</b> accepte le devis <span class="mono">${esc(d.numero)}</span> (${fF(totals(d).ttc)} TTC). L'ordre de fabrication <span class="mono">${n}</span> sera émis et visible par l'usine.</p>
+  <div class="grid2"><label class="f">Livraison souhaitée le<input class="in" id="k-ech" type="date" value="${addDays(today(),14)}"></label>
+  <label class="f">Priorité<select class="in" id="k-prio"><option value="normale">Normale</option><option value="urgente">Urgente</option></select></label></div>
+  <label class="f">Instructions pour l'usine<textarea class="in" id="k-inst" placeholder="Teinte, cuisson, conditionnement, accès chantier…"></textarea></label>
+  <div class="dlg-f"><button class="btn" type="button" data-act="dlg-close">Annuler</button><button class="btn primary" type="button" data-act="devis-emettre">Confirmer et émettre l'ordre</button></div>`);
+}
+function ofEditDlg(o){
+  openDlg(`<h2>Modifier l'ordre ${esc(o.numero)}</h2>
+  <div class="grid2"><label class="f">Livraison prévue le<input class="in" id="k-ech" type="date" value="${esc(o.echeance||'')}"></label>
+  <label class="f">Priorité<select class="in" id="k-prio"><option value="normale">Normale</option><option value="urgente" ${o.priorite==='urgente'?'selected':''}>Urgente</option></select></label></div>
+  <label class="f">Instructions pour l'usine<textarea class="in" id="k-inst">${esc(o.instructions||'')}</textarea></label>
+  <div class="dlg-f"><button class="btn" type="button" data-act="dlg-close">Annuler</button><button class="btn primary" type="button" data-act="of-save">Enregistrer</button></div>`);
+}
+function mailText(kind){
+  const c = cfg(), sign = '\n\nCordialement,\n'+c.societe+(c.tel?'\nTél. : '+c.tel:'')+(c.email?'\n'+c.email:'');
+  if (kind==='invit'){
+    const u = S.invRec || {};
+    return {to: u.email||'', subject: `Accès à la plateforme ERP — ${c.societe}`,
+      body: `Bonjour ${u.nom||''},\n\nVotre compte sur la plateforme ERP de ${c.societe} (devis, ordres de fabrication, livraisons) est créé, avec le rôle : ${ROLES[u.role]||''}.\n\nAdresse du site : ${APP_URL}\nIdentifiant : ${u.email||''}\nMot de passe provisoire : communiqué séparément.\n\nÀ la première connexion, changez votre mot de passe : sur l'écran de connexion, saisissez votre e-mail puis cliquez sur « Mot de passe oublié ? ».`+sign};
+  }
+  if (kind==='devis'){
+    const d = S.draft, t = totals(d);
+    return {to: d.client.email||'', subject: `Devis ${d.numero} — ${c.societe}`,
+      body: `Bonjour,\n\nVeuillez trouver notre devis n° ${d.numero} du ${fDate(d.date)}, valable jusqu'au ${fDate(d.validite)}.\n\n`+
+        d.lignes.filter(l => +l.qte>0).map(l => `• ${fNum(l.qte)} ${l.unite||''} — ${l.designation} à ${fF(l.pu)} : ${fF(l.qte*l.pu)}`).join('\n')+
+        `\n\nTotal HT : ${fF(t.ht)}`+(t.rem?` (remise de ${+d.remise} % incluse)`:'')+(t.aib?`\nAIB ${t.aibRate} % : ${fF(t.aib)}`:'')+(d.tvaOn?`\nTVA ${+d.tva} % : ${fF(t.tva)}`:'')+`\nTotal TTC : ${fF(t.ttc)}`+
+        (d.notes?`\n\n${d.notes}`:'')+`\n\nNous restons à votre disposition pour toute précision.`+sign};
+  }
+  const o = S.ordres.find(x => x.id===S.ofId);
+  return {to: c.emailAtelier||'', subject: `Ordre de fabrication ${o.numero} — ${o.client.nom} — livraison le ${fDate(o.echeance)}`,
+    body: `Bonjour,\n\nMerci de lancer la fabrication de l'ordre n° ${o.numero} (devis ${o.devisNumero||'—'}).\n\nClient : ${o.client.nom}`+(o.client.adresse?`\nChantier : ${o.client.adresse}`:'')+
+      `\nLivraison prévue le : ${fDate(o.echeance)}`+(o.priorite==='urgente'?'\nPriorité : URGENT':'')+`\n\nÀ fabriquer :\n`+
+      o.lignes.map(l => `• ${fNum(l.qte)} ${l.unite||''} — ${l.designation}${l.ref?' ('+l.ref+')':''}`).join('\n')+
+      (o.instructions?`\n\nInstructions :\n${o.instructions}`:'')+`\n\nLes quantités fabriquées et livrées sont à saisir dans la plateforme.`+sign};
+}
+function mailDlg(kind){
+  const m = mailText(kind);
+  openDlg(`<h2>${kind==='devis'?'Envoyer le devis par e-mail':kind==='invit'?"Inviter par e-mail":"Envoyer l'ordre de fabrication par e-mail"}</h2>
+  <label class="f">Destinataire<input class="in" id="m-to" type="email" value="${esc(m.to)}" placeholder="adresse@exemple.com"></label>
+  <label class="f">Objet<input class="in" id="m-sub" value="${esc(m.subject)}"></label>
+  <label class="f">Message<textarea class="in" id="m-body" style="min-height:220px;font-size:.86rem">${esc(m.body)}</textarea></label>
+  <p class="hint">${/@(gmail|googlemail)\.com$/i.test(cfg().emailEnvoi||'') ? `Le message s'ouvre dans Gmail, déjà rempli, sur le compte ${esc(cfg().emailEnvoi)} : il reste à cliquer sur Envoyer. ${kind==='invit' ? '' : "Téléchargez d'abord le PDF si vous voulez le joindre."}` : `Le message s'ouvre dans votre messagerie, prêt à envoyer. Si rien ne s'ouvre sur cet appareil, copiez le message et collez-le dans un e-mail. Joignez le PDF pour un document en bonne forme.`}</p>
+  <div class="dlg-f"><button class="btn" type="button" data-act="dlg-close">Fermer</button>${kind==='invit' ? '' : `<button class="btn" type="button" data-pdf data-act="pdf" data-kind="${kind}">Télécharger le PDF</button>`}<button class="btn" type="button" data-act="mail-copy">Copier le message</button>${/@(gmail|googlemail)\.com$/i.test(cfg().emailEnvoi||'') ? `<a class="btn" id="m-link" href="#" target="_blank" rel="noopener">Autre messagerie</a><a class="btn primary" id="m-gmail" href="#" target="_blank" rel="noopener">Ouvrir dans Gmail</a>` : `<a class="btn primary" id="m-link" href="#" target="_blank" rel="noopener">Ouvrir dans ma messagerie</a>`}</div>
+  ${kind==='of' && S.canWrite ? `<div class="dlg-f"><button class="btn sm" type="button" data-act="mail-done">Marquer l'ordre comme envoyé</button></div>`:''}`);
+  mailLink();
+}
+function mailLink(){ const a = $('#m-link'), g = $('#m-gmail'); if (!a) return;
+  if (g) g.href = 'https://mail.google.com/mail/?authuser='+encodeURIComponent(cfg().emailEnvoi)+'&view=cm&fs=1&to='+encodeURIComponent($('#m-to').value.trim())+'&su='+encodeURIComponent($('#m-sub').value)+'&body='+encodeURIComponent($('#m-body').value);
+  a.href = 'mailto:'+encodeURIComponent($('#m-to').value.trim()).replace(/%40/g,'@')+'?subject='+encodeURIComponent($('#m-sub').value)+'&body='+encodeURIComponent($('#m-body').value); }
+
+/* ---------- PDF ---------- */
+const pdfSafe = s => String(s ?? '').replace(/[   ]/g,' ').replace(/[–—−]/g,'-').replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/•/g,'-').replace(/œ/g,'oe').replace(/Œ/g,'OE').replace(/[^\x00-\xff]/g,'');
+function makePdf(kind, d){
+  const doc = new window.jspdf.jsPDF({unit:'mm', format:'a4'}), c = cfg(), W = 210, M = 16, R = W-M; let y = 20;
+  const T = (s, x, yy, o) => doc.text(pdfSafe(s), x, yy, o||{});
+  const font = (st, sz, col) => { doc.setFont('helvetica', st); doc.setFontSize(sz); doc.setTextColor(...(col||[28,22,19])); };
+  const wrap = (s, w) => doc.splitTextToSize(pdfSafe(s), w);
+  font('bold', 14, [168,64,29]); T(c.societe, M, y);
+  font('bold', kind==='devis'?18:13); T(kind==='devis'?'DEVIS':'ORDRE DE FABRICATION', R, y, {align:'right'});
+  font('normal', 8.5, [86,78,73]); let yl = y+5.5;
+  for (const line of [c.siege && 'Siège : '+c.siege, c.usine && 'Usine : '+c.usine, [c.tel,c.email].filter(Boolean).join('  |  ')].filter(Boolean)) for (const part of wrap(line, 100)){ doc.text(part, M, yl); yl += 4; }
+  font('normal', 10); let yr = y+7; T('N° '+d.numero, R, yr, {align:'right'}); yr += 5;
+  font('normal', 9, [86,78,73]); T((kind==='devis'?'Date : ':'Émis le : ')+fDate(d.date), R, yr, {align:'right'}); yr += 4.5;
+  T(kind==='devis' ? 'Valable jusqu\'au : '+fDate(d.validite) : 'Livraison prévue : '+fDate(d.echeance), R, yr, {align:'right'}); yr += 4.5;
+  if (kind==='of'){ T('Devis : '+(d.devisNumero||'-')+(d.priorite==='urgente'?'   URGENT':''), R, yr, {align:'right'}); yr += 4.5; }
+  y = Math.max(yl, yr)+3; doc.setDrawColor(168,64,29); doc.setLineWidth(.6); doc.line(M, y, R, y); y += 8;
+  font('bold', 8, [125,117,111]); T('CLIENT', M, y); y += 5; font('bold', 11); T(d.client.nom||'-', M, y); y += 5;
+  font('normal', 9.5, [86,78,73]);
+  for (const s of [d.client.adresse, [d.client.tel, d.client.email].filter(Boolean).join('  |  '), d.client.ifu && 'IFU : '+d.client.ifu].filter(Boolean)) for (const part of wrap(s, 178)){ doc.text(part, M, y); y += 4.5; }
+  y += 5;
+  const cols = kind==='devis'
+    ? [['Réf.', M, 'l'], ['Désignation', M+24, 'l'], ['Qté', 120, 'r'], ['Unité', 123, 'l'], ['P.U. HT', 164, 'r'], ['Total HT', R, 'r']]
+    : [['Réf.', M, 'l'], ['Désignation', M+24, 'l'], ['Unité', 112, 'l'], ['À fabriquer', 150, 'r'], ['Fabriqué', 172, 'r'], ['Livré', R, 'r']];
+  const dw = kind==='devis' ? 62 : 66;
+  const headRow = () => { doc.setFillColor(243,225,216); doc.rect(M, y-5, R-M, 7.5, 'F'); font('bold', 8.5); cols.forEach(([t,x,al]) => T(t, al==='r'?x:x+1.5, y, {align: al==='r'?'right':'left'})); y += 7; };
+  headRow();
+  for (const l of d.lignes.filter(l => (+l.qte||0) > 0 || String(l.designation||'').trim())){
+    const des = wrap(l.designation, dw), h = Math.max(6.5, des.length*4.2+2.3);
+    if (y+h > 272){ doc.addPage(); y = 22; headRow(); }
+    font('normal', 9.5); const q = +l.qte||0;
+    T(l.ref||'', M+1.5, y); doc.text(des, M+25.5, y);
+    if (kind==='devis'){ T(fNum(q), 120, y, {align:'right'}); T(l.unite||'', 124.5, y); T(fNum(l.pu), 164, y, {align:'right'}); T(fNum(q*(+l.pu||0)), R, y, {align:'right'}); }
+    else { const s = ofLine(d, l.pid); T(l.unite||'', 113.5, y); T(fNum(q), 150, y, {align:'right'}); T(fNum(s.fab), 172, y, {align:'right'}); T(fNum(s.liv), R, y, {align:'right'}); }
+    y += h-2; doc.setDrawColor(218,219,212); doc.setLineWidth(.2); doc.line(M, y, R, y); y += 5;
+  }
+  if (y > 225){ doc.addPage(); y = 22; }
+  if (kind==='devis'){
+    const t = totals(d); y += 2;
+    const rowT = (lab, val, bold) => { font(bold?'bold':'normal', bold?11:9.5); T(lab, 150, y, {align:'right'}); T(val, R, y, {align:'right'}); y += bold?7:5.5; };
+    rowT('Sous-total HT', fNum(t.st)+' F CFA'); if (t.rem) rowT('Remise '+(+d.remise)+' %', '- '+fNum(t.rem)+' F CFA');
+    rowT('Total HT', fNum(t.ht)+' F CFA'); if (d.aibOn!==false) rowT('AIB '+t.aibRate+' %', fNum(t.aib)+' F CFA'); if (d.tvaOn) rowT('TVA '+(+d.tva)+' %', fNum(t.tva)+' F CFA');
+    y += 1; rowT('TOTAL TTC', fNum(t.ttc)+' F CFA', true);
+  }
+  const block = (title, txt) => { if (!txt) return; if (y > 250){ doc.addPage(); y = 22; } y += 4; font('bold', 8, [125,117,111]); T(title, M, y); y += 5; font('normal', 9.5, [86,78,73]); for (const part of wrap(txt, 178)){ if (y > 280){ doc.addPage(); y = 22; } doc.text(part, M, y); y += 4.5; } };
+  if (kind==='devis'){ block('NOTES ET CONDITIONS', d.notes); block('MENTIONS', c.mentions); } else block("INSTRUCTIONS POUR L'USINE", d.instructions);
+  if (y > 255){ doc.addPage(); y = 22; }
+  y += 12; font('normal', 9, [86,78,73]);
+  T(kind==='devis' ? 'Bon pour accord, le client (date et signature)' : 'Visa du responsable de production', M, y); T(kind==='devis' ? 'Pour '+c.societe : 'Visa de la direction', R, y, {align:'right'});
+  return doc.output('arraybuffer');
+}
+async function savePdf(kind){
+  const d = kind==='devis' ? S.draft : S.ordres.find(x => x.id===S.ofId); if (!d || !S.dl || !window.jspdf) return;
+  try { await S.dl.save({filename: d.numero+'.pdf', data: makePdf(kind, d)}); toast('PDF enregistré : '+d.numero+'.pdf'); }
+  catch(e){ if (e && e.code==='declined') return; console.error(e); toast(e && e.code==='rate_limited' ? "Un téléchargement est déjà en attente de votre accord." : "Le PDF n'a pas pu être enregistré sur cet appareil."); }
+}
+
+/* ---------- actions ---------- */
+const ACT = {
+  nav(el){ go(el.dataset.v); },
+  set(el){ const k = el.dataset.k, v = el.dataset.val; S[k] = k==='periode' ? +v : v; render(); },
+  'new-devis'(){ newDevis(); },
+  'open-devis'(el){ openDevis(el.dataset.id); },
+  'open-of'(el){ S.ofId = el.dataset.id; S.mv = null; S.draft = null; S.draftId = null; go('ordres', true); },
+  'line-add'(){ S.draft.lignes.push(blankLine()); render(); const n = $('#l-p-'+(S.draft.lignes.length-1)); if (n) n.focus(); },
+  'line-del'(el){ S.draft.lignes.splice(+el.dataset.i, 1); render(); },
+  'devis-save'(){ if (!devisCheck(false)) return; run(async () => { await devisPersist(); toast('Brouillon '+S.draft.numero+' enregistré'); render(); }); },
+  'devis-valider'(){ if (!devisCheck(true)) return; run(async () => { await devisPersist({statut:'valide', valideLe:new Date().toISOString()}); toast('Devis '+S.draft.numero+' validé. Étape suivante : confirmer la commande.'); render(); window.scrollTo(0,0); }); },
+  'devis-valider-confirmer'(){ if (!devisCheck(true)) return; run(async () => { await devisPersist({statut:'valide', valideLe:new Date().toISOString()}); render(); confirmDlg(); }); },
+  'devis-statut'(el){ run(async () => { await devisPersist({statut: el.dataset.val}); toast(el.dataset.val==='refuse' ? 'Devis marqué comme refusé' : 'Devis rouvert en brouillon'); render(); }); },
+  'devis-confirmer'(){ confirmDlg(); },
+  'devis-emettre'(){
+    run(async () => {
+      if (!S.draft || S.draft.statut==='confirme') return;
+      const d = S.draft, ofId = uid('o'), numero = nextNum('OF', S.ordres), now = new Date().toISOString();
+      const of = {numero, devisId: S.draftId, devisNumero: d.numero, client: clone(d.client), date: today(), echeance: $('#k-ech').value || addDays(today(),14), priorite: $('#k-prio').value, instructions: $('#k-inst').value.trim(),
+        lignes: d.lignes.filter(l => (+l.qte||0) > 0).map((l,i) => ({pid: l.pid || 'libre-'+i, ref: l.ref||'', designation: l.designation, unite: l.unite||'', qte: +l.qte})), mouvements: [], creeLe: now};
+      await setDoc('ordres', ofId, of);
+      await devisPersist({statut:'confirme', ofId, ofNumero: numero, confirmeLe: now});
+      closeDlg(); S.draft = null; S.draftId = null; S.ofId = ofId; S.mv = null; go('ordres', true); toast('Ordre de fabrication '+numero+' émis');
+    });
+  },
+  'devis-dup'(){ const d = clone(S.draft), c = cfg(); Object.assign(d, {numero: nextNum('DEV', S.devis), date: today(), validite: addDays(today(), +c.validite||30), statut:'brouillon'}); for (const k of ['ofId','ofNumero','confirmeLe','valideLe','creeLe','majLe','exemple']) delete d[k]; S.draft = d; S.draftId = null; render(); window.scrollTo(0,0); toast('Copie créée : vérifiez puis enregistrez'); },
+  'devis-del'(el){ if (!armed(el)) return; run(async () => { await delDoc('devis', S.draftId); toast('Devis supprimé'); go('devis'); }); },
+  'mv-type'(el){ S.mv.type = el.dataset.val; render(); },
+  'mv-add'(){
+    const o = S.ordres.find(x => x.id===S.ofId), mv = S.mv, q = Math.round(+mv.qte||0), err = $('#mv-err');
+    const fail = m => { err.textContent = m; err.hidden = false; };
+    if (!o || !mv.pid) return; if (!(q > 0)) return fail("Indiquez une quantité supérieure à zéro."); if (!mv.date) return fail("Indiquez la date.");
+    if (mv.type==='liv'){ const s = ofLine(o, mv.pid), dispo = s.fab - s.liv; if (q > dispo) return fail(`Stock fabriqué insuffisant : ${fNum(dispo)} unité(s) disponibles pour ce produit. Saisissez d'abord la fabrication.`); }
+    run(async () => { const cur = S.ordres.find(x => x.id===o.id) || o; await updDoc('ordres', o.id, {mouvements: [...(cur.mouvements||[]), {id: uid('m'), type: mv.type, date: mv.date, pid: mv.pid, qte: q, note: String(mv.note||'').trim()}]}); S.mv = {type: mv.type, date: mv.date, pid: mv.pid, qte:'', note:''}; toast(mv.type==='liv' ? 'Livraison enregistrée' : 'Fabrication enregistrée'); render(); });
+  },
+  'mv-del'(el){ if (!armed(el)) return; const oid = S.ofId, mid = el.dataset.id; run(async () => { const o = S.ordres.find(x => x.id===oid); if (!o) return; await updDoc('ordres', o.id, {mouvements: (o.mouvements||[]).filter(m => m.id!==mid)}); toast('Mouvement supprimé'); }); },
+  'of-edit'(){ const o = S.ordres.find(x => x.id===S.ofId); if (o) ofEditDlg(o); },
+  'of-save'(){ run(async () => { await updDoc('ordres', S.ofId, {echeance: $('#k-ech').value, priorite: $('#k-prio').value, instructions: $('#k-inst').value.trim()}); closeDlg(); toast('Ordre mis à jour'); }); },
+  'of-del'(el){ if (!armed(el)) return; const o = S.ordres.find(x => x.id===S.ofId); run(async () => { await delDoc('ordres', o.id); if (o.devisId && S.devis.some(d => d.id===o.devisId)) await updDoc('devis', o.devisId, {statut:'valide', ofId:null, ofNumero:null}); toast('Ordre supprimé. Le devis revient à l\'état « Validé ».'); go('ordres'); }); },
+  'prod-edit'(el){ prodDlg(el.dataset.id); },
+  'user-edit'(el){ userDlg(el.dataset.id); },
+  'user-pick-old'(el){ const h = (window.__hits||[])[+el.dataset.i]; if (!h) return; S.uPick = {uid: h.id}; $('#u-nom').value = h.name || ''; if (h.email) $('#u-mail').value = h.email; $('#u-res').textContent = ''; $('#u-q').value = h.name || ''; $('#u-role').focus(); },
+  'user-save'(el){
+    const err = $('#u-err'), nom = $('#u-nom').value.trim(), email = $('#u-mail').value.trim(), role = $('#u-role').value, actif = $('#u-actif').checked, edit = el.dataset.id;
+    const fail = m => { err.textContent = m; err.hidden = false; };
+    if (!nom) return fail("Indiquez le nom de la personne.");
+    if (!edit && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return fail("Indiquez une adresse e-mail valide.");
+    if (!edit && S.utilisateurs.some(u => String(u.email||'').toLowerCase()===email.toLowerCase())) return fail("Cette adresse est déjà dans la liste.");
+    if (S.myRec && S.myRec.id===edit && (role!=='admin' || !actif) && !(S.me && S.me.isOwner)) return fail("Vous ne pouvez pas retirer vos propres droits d'administrateur.");
+    const pwd = $('#u-pwd') ? $('#u-pwd').value : '';
+    if (!edit && pwd.length < 8) return fail("Le mot de passe provisoire doit compter 8 caractères au moins.");
+    const old = S.utilisateurs.find(u => u.id===edit) || {}, now = new Date().toISOString();
+    const btn = el; btn.disabled = true;
+    (async () => {
+      try {
+        let id = edit;
+        if (!edit){
+          if (S.mode==='db'){
+            const sec = firebase.apps.find(a => a.name==='creation') || firebase.initializeApp(FB, 'creation');
+            const cr = await sec.auth().createUserWithEmailAndPassword(email, pwd); id = cr.user.uid; await sec.auth().signOut();
+          } else id = uid('u');
+        }
+        await setDoc('utilisateurs', id, {nom, email: edit ? (old.email||'') : email, uid: id, role, actif, creeLe: old.creeLe || now, majLe: now});
+        closeDlg(); toast(edit ? 'Utilisateur mis à jour' : 'Compte créé. Cliquez sur « Inviter » pour lui envoyer le lien.');
+      } catch(e){ console.error(e); btn.disabled = false; fail(e && /^auth\//.test(e.code||'') ? authMsg(e)+(e.code==='auth/email-already-in-use' ? " Si cette personne avait été retirée, supprimez son compte dans la console Firebase (Authentication), puis recréez-le ici." : '') : errMsg(e)); }
+    })();
+  },
+  'user-reset'(el){ const u = S.utilisateurs.find(x => x.id===el.dataset.id); if (!u || !u.email || !auth) return; auth.sendPasswordResetEmail(u.email).then(() => toast('E-mail de nouveau mot de passe envoyé à '+u.email), e => toast(authMsg(e))); },
+  logout(){ if (auth) auth.signOut().then(() => location.reload()); },
+  'user-del'(el){ if (S.myRec && S.myRec.id===el.dataset.id){ toast("Vous ne pouvez pas vous retirer vous-même de la liste."); return; } if (!armed(el)) return; run(async () => { await delDoc('utilisateurs', el.dataset.id); toast("Utilisateur retiré : il n'a plus accès aux données. Son identifiant reste dans la console Firebase (Authentication)."); }); },
+  'user-invite'(el){ S.invRec = S.utilisateurs.find(u => u.id===el.dataset.id); if (S.invRec) mailDlg('invit'); },
+  'acces-demander'(){
+    const me = S.me || {}; if (!me.id){ toast("Votre compte n'est pas identifiable par la plateforme."); return; }
+    const nom = (($('#r-nom') && $('#r-nom').value) || me.name || '').trim() || 'Sans nom';
+    run(async () => { await setDoc('demandes', me.id, {nom, creeLe: new Date().toISOString()}); S.demSent = true; toast("Demande envoyée à l'administrateur"); render(); });
+  },
+  'req-ok'(el){
+    const id = el.dataset.id, d = S.demandes.find(x => x.id===id), q = S.rq[id] || {}; if (!d) return;
+    const role = q.role || 'utilisateur', link = q.link || '';
+    run(async () => {
+      if (link) await updDoc('utilisateurs', link, {uid: id, role, actif: true, majLe: new Date().toISOString()});
+      else await setDoc('utilisateurs', uid('u'), {nom: d.nom || 'Sans nom', email: '', uid: id, role, actif: true, creeLe: new Date().toISOString(), majLe: new Date().toISOString()});
+      await delDoc('demandes', id); delete S.rq[id]; toast('Accès accordé : '+(ROLES[role]||role));
+    });
+  },
+  'req-no'(el){ if (!armed(el)) return; run(async () => { await delDoc('demandes', el.dataset.id); toast('Demande refusée'); }); },
+  'acces-toggle'(){
+    const next = !cfg().accesRestreint;
+    if (next && !(S.me && S.me.isOwner) && !S.myRec){ toast("Ajoutez-vous d'abord dans la liste : sinon vous perdriez votre propre accès."); return; }
+    run(async () => { await updDoc('config', 'societe', {accesRestreint: next}); toast(next ? "Accès limité aux utilisateurs de la liste" : "Accès ouvert à toute personne partagée"); });
+  },
+  'client-edit'(el){ clientDlg(el.dataset.id, el.dataset.pick); },
+  'client-save'(el){
+    const nom = $('#k-nom').value.trim(), err = $('#k-err'), id = el.dataset.id || uid('c'), pick = el.dataset.pick;
+    if (!nom){ err.textContent = "Indiquez le nom ou la raison sociale du client."; err.hidden = false; return; }
+    if (!el.dataset.id && S.clients.some(c => String(c.nom||'').trim().toLowerCase()===nom.toLowerCase())){ err.textContent = "Un client porte déjà ce nom."; err.hidden = false; return; }
+    const old = S.clients.find(c => c.id===id) || {}, rec = {nom, tel: $('#k-tel').value.trim(), email: $('#k-email').value.trim(), ifu: $('#k-ifu').value.trim(), adresse: $('#k-adr').value.trim(), actif: true, creeLe: old.creeLe || new Date().toISOString(), majLe: new Date().toISOString()};
+    run(async () => { await setDoc('clients', id, rec); closeDlg(); if (pick && S.draft){ S.draft.client = {id, nom: rec.nom, tel: rec.tel, email: rec.email, adresse: rec.adresse, ifu: rec.ifu}; render(); } toast(el.dataset.id ? 'Client mis à jour' : 'Client créé'); });
+  },
+  'client-del'(el){ if (!armed(el)) return; run(async () => { await delDoc('clients', el.dataset.id); toast('Client retiré du fichier. Ses devis sont conservés.'); }); },
+  'prod-save'(el){
+    const nom = $('#p-nom').value.trim(), prix = +$('#p-prix').value, err = $('#p-err');
+    if (!nom){ err.textContent = "Indiquez la désignation du produit."; err.hidden = false; return; }
+    if (!(prix >= 0) || $('#p-prix').value===''){ err.textContent = "Indiquez le prix de la liste ou le prix unitaire hors taxes."; err.hidden = false; return; }
+    const ref = $('#p-ref').value.trim();
+    if (ref && S.produits.some(p => p.id!==el.dataset.id && String(p.ref||'').trim().toLowerCase()===ref.toLowerCase())){ err.textContent = "Cette référence existe déjà dans le catalogue."; err.hidden = false; return; }
+    const id = el.dataset.id || uid('p');
+    run(async () => { await setDoc('produits', id, {ref: $('#p-ref').value.trim(), nom, format: $('#p-format').value.trim(), unite: $('#p-unite').value.trim() || 'pièce', prix: r2(prix), actif: $('#p-actif').checked, majLe: new Date().toISOString()}); closeDlg(); toast(el.dataset.id ? 'Produit mis à jour' : 'Produit ajouté au catalogue'); });
+  },
+  'prod-del'(el){ if (!armed(el)) return; run(async () => { await delDoc('produits', el.dataset.id); toast('Produit retiré du catalogue'); }); },
+  'cfg-save'(){ run(async () => { const c = S.cfgDraft; c.tva = +c.tva||0; c.aib = +c.aib||0; c.validite = Math.max(1, Math.round(+c.validite||30)); await setDoc('config', 'societe', clone(c)); toast('Paramètres enregistrés'); }); },
+  'ex-del'(el){ if (!armed(el)) return; const all = el.dataset.scope==='all'; run(async () => {
+    for (const d of S.devis.filter(d => d.exemple)) await delDoc('devis', d.id);
+    for (const d of S.ordres.filter(d => d.exemple)) await delDoc('ordres', d.id);
+    if (all){ for (const d of S.produits.filter(d => d.exemple)) await delDoc('produits', d.id); for (const d of S.clients.filter(d => d.exemple)) await delDoc('clients', d.id); }
+    toast("Données d'exemple supprimées"); render(); }); },
+  'dlg-close'(){ closeDlg(); },
+  import(){
+    const f = $('#imp-file') && $('#imp-file').files[0], msg = $('#imp-msg'); if (!f){ msg.textContent = "Choisissez d'abord le fichier .json."; return; }
+    const rd = new FileReader();
+    rd.onload = async () => {
+      let data; try { data = JSON.parse(rd.result); } catch(e){ msg.textContent = "Ce fichier n'est pas un export valide."; return; }
+      const cols = ['produits','clients','devis','ordres','config'], writes = [];
+      for (const c of cols) for (const [id, v] of Object.entries(data[c]||{})) if (v && typeof v==='object') writes.push([c, id, v]);
+      if (!writes.length){ msg.textContent = "Aucune donnée reconnue dans ce fichier."; return; }
+      msg.textContent = 'Import de '+writes.length+' fiche(s)…';
+      try {
+        if (db){ for (let i=0;i<writes.length;i+=400){ const b = db.batch(); for (const [c,id,v] of writes.slice(i,i+400)) b.set(db.collection(c).doc(id), v); await b.commit(); } }
+        else for (const [c,id,v] of writes) localUpsert(c, id, v, false);
+        const n = k => writes.filter(w => w[0]===k).length;
+        S.impMsg = msg.textContent = 'Import terminé : '+n('produits')+' produit(s), '+n('clients')+' client(s), '+n('devis')+' devis, '+n('ordres')+' ordre(s), '+n('config')+' paramètre(s).'; toast('Données importées'); scheduleRender();
+      } catch(e){ console.error(e); msg.textContent = errMsg(e); }
+    };
+    rd.readAsText(f);
+  },
+  mail(el){ mailDlg(el.dataset.kind); },
+  'mail-copy'(){ const ta = $('#m-body'), txt = 'Objet : '+$('#m-sub').value+'\n\n'+ta.value; const fb = () => { ta.focus(); ta.select(); toast('Sélectionné : copiez avec Ctrl+C'); }; try { navigator.clipboard.writeText(txt).then(() => toast('Message copié'), fb); } catch(e){ fb(); } },
+  'mail-done'(){ const to = $('#m-to').value.trim(); run(async () => { await updDoc('ordres', S.ofId, {envoi: {date: today(), a: to}}); closeDlg(); toast('Ordre marqué comme envoyé'); }); },
+  pdf(el){ savePdf(el.dataset.kind); }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  if (el.tagName==='TR' && e.target.closest('button,a,input,select')) return;
+  const f = ACT[el.dataset.act]; if (f){ e.preventDefault(); S.act = el.dataset.act+':'+(el.dataset.id||el.dataset.val||''); f(el, e); }
+});
+const ROOTS = {draft: () => S.draft, mv: () => S.mv, cfg: () => S.cfgDraft, ui: () => S};
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id==='m-to' || t.id==='m-sub' || t.id==='m-body') return mailLink();
+  if (t.id==='u-q') return userSearch(t.value);
+  if (t.id==='p-liste' || t.id==='p-prix'){
+    const o = $(t.id==='p-liste' ? '#p-prix' : '#p-liste'), v = t.value;
+    if (o) o.value = v==='' ? '' : t.id==='p-liste' ? r2(+v/aibK()) : r2(+v*aibK());
+    const c = $('#p-calc'); if (c) c.innerHTML = prodCalc($('#p-prix').value);
+    return;
+  }
+  if (t.dataset.on==='rq-field'){ (S.rq[t.dataset.id] = S.rq[t.dataset.id] || {})[t.dataset.f] = t.value; return; }
+  if (t.dataset.on==='client-sel'){
+    const c = S.clients.find(x => x.id===t.value); if (c) S.draft.client = {id:c.id, nom:c.nom||'', tel:c.tel||'', email:c.email||'', adresse:c.adresse||'', ifu:c.ifu||''};
+    return render();
+  }
+  if (t.dataset.on==='prod-cell'){
+    const key = t.dataset.id+':'+t.dataset.f;
+    if (t.type==='checkbox'){ S.act = 'prod-cell:'+key; run(async () => { await updDoc('produits', t.dataset.id, {actif: t.checked, majLe: new Date().toISOString()}); toast(t.checked ? 'Produit proposé dans les devis' : 'Produit masqué dans les devis'); }); }
+    else S.pedit[key] = t.value;
+    return;
+  }
+  if (t.dataset.on==='line-prod'){
+    const l = S.draft.lignes[+t.dataset.i], p = S.produits.find(x => x.id===t.value);
+    if (p) Object.assign(l, {pid:p.id, ref:p.ref||'', designation: p.nom+(p.format?' '+p.format:''), unite:p.unite||'pièce', pu:+p.prix||0}); else l.pid = '';
+    return render();
+  }
+  const b = t.dataset.bind; if (!b) return;
+  const [root, path] = b.split(':'), o = ROOTS[root](); if (!o) return;
+  setPath(o, path, t.type==='checkbox' ? t.checked : t.type==='number' ? (t.value==='' ? '' : +t.value) : t.value);
+  if (root==='draft') refreshTotals();
+  if (t.dataset.re) scheduleRender();
+});
+document.addEventListener('change', e => {
+  const t = e.target; if (t.dataset.on!=='prod-cell' || t.type==='checkbox') return;
+  const id = t.dataset.id, f = t.dataset.f, key = id+':'+f, p = S.produits.find(x => x.id===id); if (!p) return;
+  const back = msg => { delete S.pedit[key]; toast(msg); render(); };
+  let v = t.value.trim();
+  if (f==='prix'){ if (v==='' || !(+v >= 0)) return back('Indiquez un prix valide, en F CFA hors taxes.'); v = r2(v); }
+  if (f==='nom' && !v) return back('La désignation ne peut pas être vide.');
+  if (String(p[f] ?? '')===String(v)){ delete S.pedit[key]; return; }
+  S.act = 'prod-cell:'+key;
+  run(async () => { await updDoc('produits', id, {[f]: v, exemple: false, majLe: new Date().toISOString()}); delete S.pedit[key]; toast(f==='prix' ? 'Prix mis à jour : '+fP(v)+' HT' : 'Produit mis à jour'); });
+});
+dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !dlg.hidden) closeDlg(); });
+const tip = $('#tip');
+document.addEventListener('pointermove', e => {
+  const r = e.target.closest && e.target.closest('[data-tip]');
+  if (!r){ if (!tip.hidden) tip.hidden = true; return; }
+  tip.textContent = r.dataset.tip; tip.hidden = false;
+  const w = tip.offsetWidth, h = tip.offsetHeight; let x = e.clientX+14, y = e.clientY+14;
+  if (x+w > innerWidth-8) x = e.clientX-w-14; if (y+h > innerHeight-8) y = e.clientY-h-14;
+  tip.style.left = Math.max(8,x)+'px'; tip.style.top = Math.max(8,y)+'px';
+});
+let rz = 0;
+if (window.ResizeObserver) new ResizeObserver(() => { clearTimeout(rz); rz = setTimeout(() => { if (S.view==='tableau' && S.vue==='graph') drawMois(); }, 120); }).observe($('#main'));
+const h0 = location.hash.replace('#',''); if (VIEWS.includes(h0)) S.view = h0;
+render(); init();
+})();
+</script>
+
+</body></html>
